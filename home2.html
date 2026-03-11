@@ -183,49 +183,100 @@ section{
 }
 /* LUXURY WHAT WE DO SECTION */
 
-.luxury-process{
-    background:#0b1c2d;
-    color:#ffffff;
-    padding:100px 0;
+.why-choose{
+padding:90px 8%;
+background:#e7e3e3;
+font-family:'Poppins',sans-serif;
 }
 
-.luxury-title{
-    text-align:center;
-    font-size:38px;
-    letter-spacing:1px;
+/* TITLE */
+
+.why-title{
+text-align:center;
+margin-bottom:60px;
 }
 
-.gold-divider{
-    width:80px;
-    height:3px;
-    background:#d4af37;
-    margin:20px auto 60px;
+.why-title span{
+background:#555;
+color:#fff;
+padding:14px 35px;
+font-size:15px;
+font-weight:600;
+letter-spacing:1px;
 }
 
-.luxury-block{
-    margin-bottom:60px;
-    padding:40px;
-    border-left:4px solid #d4af37;
-    background:rgba(255,255,255,0.03);
-    backdrop-filter: blur(4px);
-    transition:0.4s;
+/* ROW */
+
+.why-row{
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+gap:50px;
+margin-bottom:70px;
 }
 
-.luxury-block:hover{
-    transform:translateY(-6px);
-    background:rgba(255,255,255,0.06);
+/* DARK SECTION */
+
+.dark-section{
+background:#1f1f1f;
+padding:50px;
+border-radius:4px;
 }
 
-.luxury-block h3{
-    color:#d4af37;
-    margin-bottom:20px;
-    font-size:22px;
+.dark-section .why-content h2{
+color:#fff;
 }
 
-.luxury-block p{
-    line-height:1.9;
-    font-size:15.5px;
-    color:#e0e0e0;
+.dark-section .why-content p{
+color:#ddd;
+}
+
+/* IMAGE */
+
+.why-image img{
+width:100%;
+height:320px;
+object-fit:cover;
+border-radius:4px;
+transition:0.4s;
+}
+
+.why-image img:hover{
+transform:scale(1.05);
+}
+
+/* CONTENT */
+
+.why-content h2{
+font-size:24px;
+margin-bottom:15px;
+letter-spacing:1px;
+color:#222;
+}
+
+.why-content p{
+font-size:16px;
+line-height:1.8;
+color:#333;
+margin-bottom:12px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.why-row{
+grid-template-columns:1fr;
+}
+
+.why-image img{
+height:260px;
+}
+
+.dark-section{
+padding:30px;
+}
+
 }
 /* SERVICES */
 
@@ -262,58 +313,261 @@ section{
 
 /* REVIEWS */
 
-.reviews{
-    text-align:center;
+.review-section{
+padding:100px 8%;
+background:#e7e3e3;
+text-align:center;
+}
+
+.review-slider{
+max-width:900px;
+margin:auto;
+overflow:hidden;
+position:relative;
+}
+
+.review-track{
+display:flex;
+transition:transform 0.6s ease;
 }
 
 .review-card{
-    max-width:600px;
-    margin:auto;
-    font-style:italic;
+min-width:100%;
+background:#fff;
+padding:40px;
+border-radius:10px;
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
 }
 
-.stars{
-    color:#d4af37;
-    margin-bottom:10px;
+.review-card p{
+font-size:16px;
+line-height:1.7;
+color:#555;
+margin-bottom:20px;
+}
+
+.review-card h4{
+font-size:18px;
+margin-bottom:5px;
+color:#0b1c2d;
+}
+
+.review-card span{
+font-size:14px;
+color:#999;
+}
+
+/* dots */
+
+.review-dots{
+margin-top:20px;
+}
+
+.dot{
+height:10px;
+width:10px;
+background:#ccc;
+border-radius:50%;
+display:inline-block;
+margin:0 5px;
+cursor:pointer;
+}
+
+.dot.active{
+background:#d4af37;
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+.review-card{
+padding:25px;
+}
+
+.review-card p{
+font-size:14px;
+}
+
 }
 
 /* FOOTER */
 
-footer{
-    background:#0b1c2d;
-    color:#fff;
-    padding:40px 0;
-    text-align:center;
+
+
+/* FOOTER */
+
+.footer{
+background:#011846;
+color:#ccc;
+padding:70px 8% 30px;
+font-family:Poppins;
 }
 
-.footer-links{
-    margin:20px 0;
+.footer-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:40px;
+margin-bottom:40px;
 }
 
-.footer-links a{
-    color:#fff;
-    margin:0 10px;
-    text-decoration:none;
+/* LOGO */
+
+.footer-logo{
+color:#d4af37;
+font-size:26px;
+margin-bottom:15px;
+}
+
+/* HEADINGS */
+
+.footer-col h3{
+color:#fff;
+margin-bottom:18px;
+font-size:18px;
+}
+
+/* TEXT */
+
+.footer-col p{
+font-size:14px;
+line-height:1.7;
+margin-bottom:10px;
+}
+
+/* LINKS */
+
+.footer-col ul{
+list-style:none;
+padding:0;
+}
+
+.footer-col ul li{
+margin-bottom:10px;
+font-size:14px;
+}
+
+.footer-col ul li a{
+text-decoration:none;
+color:#ccc;
+transition:0.3s;
+}
+
+.footer-col ul li a:hover{
+color:#d4af37;
+padding-left:4px;
+}
+
+/* SOCIAL ICONS */
+
+.footer-social{
+margin-top:15px;
+display:flex;
+gap:10px;
+}
+
+.footer-social a{
+width:36px;
+height:36px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#1a1a1a;
+border-radius:50%;
+color:#d4af37;
+font-size:14px;
+transition:0.3s;
+}
+
+.footer-social a:hover{
+background:#d4af37;
+color:#000;
+}
+
+/* CONTACT ICONS */
+
+.footer-col i{
+margin-right:8px;
+color:#d4af37;
+}
+
+/* COPYRIGHT */
+
+.footer-bottom{
+border-top:1px solid #222;
+text-align:center;
+padding-top:20px;
+font-size:13px;
+color:#888;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.footer{
+padding:50px 6% 20px;
+}
+
+.footer-logo{
+font-size:22px;
+}
+
 }
 
 /* FLOATING ICONS */
 
-.floating-icons{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    display:flex;
-    flex-direction:column;
-    gap:15px;
+.sticky-icons{
+position:fixed;
+top:50%;
+right:20px;
+transform:translateY(-50%);
+display:flex;
+flex-direction:column;
+gap:16px;
+z-index:999;
 }
 
-.floating-icons a{
-    background:#d4af37;
-    color:#fff;
-    padding:15px;
-    border-radius:50%;
-    text-align:center;
-    font-size:20px;
+/* ICON STYLE */
+
+.sticky-icons a{
+width:56px;
+height:56px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#d4af37; /* Light Gold */
+color:#ffffff;
+font-size:24px;
+box-shadow:0 6px 18px rgba(0,0,0,0.25);
+transition:all 0.3s ease;
+text-decoration:none;
+}
+
+/* HOVER EFFECT */
+
+.sticky-icons a:hover{
+transform:scale(1.12);
+background:#c29b2c;
+box-shadow:0 8px 22px rgba(0,0,0,0.35);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.sticky-icons{
+right:14px;
+gap:12px;
+}
+
+.sticky-icons a{
+width:48px;
+height:48px;
+font-size:20px;
+}
+
 }
 
 /* RESPONSIVE */
@@ -339,7 +593,7 @@ footer{
 
 <!-- NAVBAR -->
 <nav class="navbar" id="navbar">
-    <div class="logo">AYODHA GROUPS</div>
+    <div class="logo">AYODHYA GROUP</div>
     <ul class="nav-links">
         <li><a href="#">Home</a></li>
         <li><a href="#">About Us</a></li>
@@ -381,48 +635,84 @@ footer{
     </div>
 </section>
 <!-- LUXURY WHAT WE DO SECTION -->
-<section class="luxury-process">
-    <div class="container">
-        <h2 class="luxury-title">What We Do</h2>
-        <div class="gold-divider"></div>
+<section class="why-choose">
 
-        <div class="luxury-block">
-            <h3>01. Premium Flat Sales & Advisory</h3>
-            <p>
-                At Ayodha Groups, we don’t just sell properties — we build long-term trust.
-                Our advisory process begins with a detailed consultation to understand your financial planning,
-                location priorities, and lifestyle expectations. We present carefully curated residential options
-                backed by transparent pricing, legal clarity, and complete documentation support.
-                From site visits to registration assistance, our team ensures every step is seamless,
-                professional, and confidence-driven. Your investment is handled with strategic insight and integrity.
-            </p>
-        </div>
+<div class="why-title">
+<span>WHY CHOOSE US</span>
+</div>
 
-        <div class="luxury-block">
-            <h3>02. Bespoke Interior Design & Execution</h3>
-            <p>
-                We transform empty spaces into refined living experiences.
-                Our interior process starts with conceptual planning and 3D visualization tailored to your vision.
-                Every element — from modular kitchens and wardrobes to lighting concepts and ceiling design —
-                is crafted with premium materials and superior workmanship.
-                Our execution team follows strict quality standards and timeline discipline.
-                The result is a luxurious, functional, and timeless interior that reflects your personality.
-            </p>
-        </div>
+<!-- CONSTRUCTION -->
 
-        <div class="luxury-block">
-            <h3>03. End-to-End Construction & Project Management</h3>
-            <p>
-                Excellence in construction begins with precision planning and structural integrity.
-                We undertake comprehensive project management — from soil testing and architectural design
-                to structural engineering and final finishing.
-                High-grade materials, skilled workforce supervision, and milestone-based inspections
-                ensure uncompromised quality.
-                With disciplined scheduling and transparent progress reporting,
-                we deliver projects that stand strong in durability, aesthetics, and long-term value.
-            </p>
-        </div>
-    </div>
+<div class="why-row">
+
+<div class="why-image">
+<img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" alt="">
+</div>
+
+<div class="why-content">
+
+<h2>CONSTRUCTION</h2>
+
+<p>
+Our construction division focuses on delivering high-quality residential and commercial structures with modern engineering practices. From foundation to finishing, every stage of the project is executed with precision and strict quality control.
+</p>
+
+<p>
+We combine advanced construction technology, durable materials, and experienced professionals to ensure structural strength, timely delivery, and long-term reliability. Our goal is to build spaces that are safe, functional, and designed for modern living.
+</p>
+
+</div>
+
+</div>
+
+<!-- INTERIORS -->
+
+<div class="why-row dark-section">
+
+<div class="why-image">
+<img src="https://images.unsplash.com/photo-1616594039964-ae9021a400a0" alt="">
+</div>
+
+<div class="why-content">
+
+<h2>INTERIORS</h2>
+
+<p>
+Our interior design team transforms ordinary spaces into elegant and functional environments. We carefully analyze the client's lifestyle, preferences, and space requirements to create designs that reflect comfort and sophistication.
+</p>
+
+<p>
+Using modern tools such as 2D layouts, 3D visualizations, and premium materials, we deliver interiors that balance aesthetics with practicality. From living rooms to modular kitchens and bedrooms, every detail is designed to enhance your lifestyle.
+</p>
+
+</div>
+
+</div>
+
+<!-- MARKETING -->
+
+<div class="why-row">
+
+<div class="why-image">
+<img src="https://images.unsplash.com/photo-1552664730-d307ca884978" alt="">
+</div>
+
+<div class="why-content">
+
+<h2>MARKETING</h2>
+
+<p>
+Our marketing expertise helps real estate projects reach the right audience through strategic promotion and digital campaigns. We use modern marketing tools, targeted advertising, and strong branding strategies to generate quality leads.
+</p>
+
+<p>
+Through a combination of online and offline marketing methods, we ensure maximum visibility for projects while building strong customer trust and engagement.
+</p>
+
+</div>
+
+</div>
+
 </section>
 <!-- SERVICES -->
 <section class="services">
@@ -452,39 +742,205 @@ footer{
 </section>
 
 <!-- REVIEWS -->
-<section class="reviews">
-    <h2 class="section-title">What Our Clients Say</h2>
-    <div class="review-card">
-        <div class="stars">★★★★★</div>
-        <p>"Ayodha Groups delivered our dream home with exceptional quality and on-time completion."</p>
-        <h4>- Ramesh Kumar</h4>
-    </div>
+<section class="review-section">
+
+<h2 class="section-title">Client Reviews</h2>
+<div class="gold-divider"></div>
+
+<div class="review-slider">
+
+<div class="review-track">
+
+<div class="review-card">
+<p>"Vegamarcon Interiors transformed our apartment beautifully. The team was professional and delivered exactly what we imagined."</p>
+<h4>Rahul Sharma</h4>
+<span>Bangalore</span>
+</div>
+
+<div class="review-card">
+<p>"Excellent quality work and very smooth execution. The interiors look premium and the finishing is perfect."</p>
+<h4>Ananya Reddy</h4>
+<span>RR Nagar</span>
+</div>
+
+<div class="review-card">
+<p>"From design to final execution everything was handled professionally. Highly recommend Vegamarcon Interiors."</p>
+<h4>Vikram Patel</h4>
+<span>Whitefield</span>
+</div>
+
+<div class="review-card">
+<p>"Very creative designers and great customer support. Our living room interiors turned out amazing."</p>
+<h4>Priya Nair</h4>
+<span>Electronic City</span>
+</div>
+
+</div>
+
+<div class="review-dots">
+<span class="dot active"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+<span class="dot"></span>
+</div>
+
+</div>
+
 </section>
 
 <!-- FOOTER -->
-<footer>
-    <h3>Ayodha Groups</h3>
-    <p>Luxury Real Estate & Construction Company</p>
-    <div class="footer-links">
-        <a href="#">Home</a>
-        <a href="#">Projects</a>
-        <a href="#">Interiors</a>
-        <a href="#">Contact</a>
-    </div>
-    <p>© 2026 Ayodha Groups. All Rights Reserved.</p>
-</footer>
+<footer class="footer">
 
-<!-- FLOATING ICONS -->
-<div class="floating-icons">
-    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-    <a href="#"><i class="fa-solid fa-phone"></i></a>
-    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+<div class="footer-container">
+
+<!-- COMPANY INFO -->
+
+<div class="footer-col">
+
+<h2 class="footer-logo">AYODHA GROUPS</h2>
+
+<p>
+Ayodha Groups specializes in premium construction, luxury interior design, and real estate development. 
+We focus on delivering high-quality homes and spaces that combine functionality, durability, and modern design.
+</p>
+
+<div class="footer-social">
+
+<a href="#"><i class="fab fa-facebook-f"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+
 </div>
+
+</div>
+
+
+<!-- QUICK LINKS -->
+
+<div class="footer-col">
+
+<h3>Quick Links</h3>
+
+<ul>
+
+<li><a href="#">Home</a></li>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Interiors</a></li>
+<li><a href="#">Projects</a></li>
+<li><a href="#">Construction</a></li>
+<li><a href="#">Careers</a></li>
+
+</ul>
+
+</div>
+
+
+<!-- SERVICES -->
+
+<div class="footer-col">
+
+<h3>Our Services</h3>
+
+<ul>
+
+<li>Residential Construction</li>
+<li>Commercial Construction</li>
+<li>Interior Design</li>
+<li>Modular Kitchen</li>
+<li>Luxury Bedroom Interiors</li>
+<li>Real Estate Development</li>
+
+</ul>
+
+</div>
+
+
+<!-- CONTACT -->
+
+<div class="footer-col">
+
+<h3>Contact Us</h3>
+
+<p><i class="fa-solid fa-location-dot"></i> RR Nagar, Bangalore</p>
+
+<p><i class="fa-solid fa-phone"></i> +91 98765 43210</p>
+
+<p><i class="fa-solid fa-envelope"></i> info@ayodhagroups.com</p>
+
+<p><i class="fa-solid fa-clock"></i> Mon - Sat : 9AM - 7PM</p>
+
+</div>
+
+</div>
+
+
+<!-- COPYRIGHT -->
+
+<div class="footer-bottom">
+
+<p>© 2026 Ayodha Groups. All Rights Reserved.</p>
+
+</div>
+
+</footer>
+<!-- FLOATING ICONS -->
+<div class="sticky-icons">
+
+<a href="#" class="whatsapp" target="_blank">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+<a href="tel:+919876543210" class="call">
+<i class="fa-solid fa-phone"></i>
+</a>
+
+<a href="#" class="instagram" target="_blank">
+<i class="fab fa-instagram"></i>
+</a>
+
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script>
 window.addEventListener("scroll", function(){
     document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
 });
+
+
+let index = 0
+const track = document.querySelector(".review-track")
+const dots = document.querySelectorAll(".dot")
+const total = dots.length
+
+function showSlide(i){
+
+index = i
+
+track.style.transform = "translateX(-"+index*100+"%)"
+
+dots.forEach(d => d.classList.remove("active"))
+dots[index].classList.add("active")
+
+}
+
+dots.forEach((dot,i)=>{
+dot.addEventListener("click",()=>showSlide(i))
+})
+
+function autoSlide(){
+
+index++
+if(index>=total){
+index=0
+}
+
+showSlide(index)
+
+}
+
+setInterval(autoSlide,4000)
+
 </script>
 
 </body>
