@@ -1,0 +1,2922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurenza Studio — Interior Design, Bangalore</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root{
+  --cream:#F5F0E8;
+  --warm:#FAF8F4;
+  --off:#F0EBE3;
+  --charcoal:#1C1A17;
+  --dark:#2A2724;
+  --sand:#C9B99A;
+  --taupe:#8B7D6B;
+  --accent:#9E7D58;
+  --accent2:#7A5F3F;
+  --green:#2D5A3D;
+  --border:rgba(28,26,23,.1);
+  --shadow:0 4px 32px rgba(28,26,23,.08);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{
+  background:var(--warm);
+  color:var(--charcoal);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ═══════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════ */
+.cursor,.cursor-ring{
+  position:fixed;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+}
+.cursor{width:8px;height:8px;background:var(--charcoal);transition:width .25s,height .25s,background .25s;}
+.cursor-ring{
+  width:36px;height:36px;border:1px solid var(--charcoal);
+  z-index:9998;opacity:.45;
+  transition:width .35s cubic-bezier(.22,1,.36,1),height .35s cubic-bezier(.22,1,.36,1),opacity .3s;
+}
+.cursor-ring.big{width:60px;height:60px;opacity:.2;}
+
+/* ═══════════════════════════════════════
+   NAV
+═══════════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:24px 52px;
+  transition:background .4s,border-color .4s,padding .3s;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(250,248,244,.96);
+  backdrop-filter:blur(20px);
+  border-bottom-color:var(--border);
+  padding:16px 52px;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:400;letter-spacing:.08em;
+  color:white;text-decoration:none;transition:color .3s;
+  flex-shrink:0;
+}
+nav.scrolled .nav-logo{color:var(--charcoal);}
+.nav-links{display:flex;gap:32px;list-style:none;align-items:center;}
+.nav-links a{
+  font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.82);text-decoration:none;
+  position:relative;transition:color .3s,opacity .3s;
+  white-space:nowrap;
+}
+nav.scrolled .nav-links a{color:var(--charcoal);opacity:.7;}
+nav.scrolled .nav-links a:hover{opacity:1;}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:1px;background:currentColor;transition:width .3s;
+}
+.nav-links a:hover::after{width:100%;}
+/* Nav CTA button */
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:white;color:var(--charcoal)!important;
+  font-size:10px!important;font-weight:500!important;
+  letter-spacing:.12em!important;text-transform:uppercase;
+  padding:10px 20px;border-radius:1px;
+  transition:background .3s,color .3s,gap .3s!important;
+  opacity:1!important;
+}
+.nav-cta::after{display:none!important;}
+nav.scrolled .nav-cta{background:var(--charcoal);color:white!important;}
+.nav-cta:hover{gap:14px!important;opacity:1!important;}
+
+/* Hamburger */
+.nav-hamburger{
+  display:none;flex-direction:column;gap:5px;cursor:pointer;
+  background:none;border:none;padding:4px;
+}
+.nav-hamburger span{
+  display:block;width:24px;height:1.5px;
+  background:white;transition:background .3s,transform .3s,opacity .3s;
+}
+nav.scrolled .nav-hamburger span{background:var(--charcoal);}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+
+/* Mobile menu overlay */
+.mobile-menu{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:var(--charcoal);flex-direction:column;
+  align-items:center;justify-content:center;gap:36px;
+  opacity:0;pointer-events:none;
+  transition:opacity .4s cubic-bezier(.22,1,.36,1);
+}
+.mobile-menu.open{opacity:1;pointer-events:all;}
+.mobile-menu a{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,6vw,44px);font-weight:300;
+  color:rgba(255,255,255,.85);text-decoration:none;
+  letter-spacing:.04em;
+  transition:color .25s;
+}
+.mobile-menu a:hover{color:var(--sand);}
+.mobile-menu-close{
+  position:absolute;top:24px;right:24px;
+  background:none;border:none;color:white;cursor:pointer;
+  font-size:28px;line-height:1;opacity:.6;
+  transition:opacity .2s;
+}
+.mobile-menu-close:hover{opacity:1;}
+
+/* ═══════════════════════════════════════
+   FLOATING BOOK CTA
+   Sticky bottom-right conversion button
+═══════════════════════════════════════ */
+.float-cta{
+  position:fixed;bottom:32px;right:32px;z-index:800;
+  display:flex;align-items:center;gap:10px;
+  background:var(--charcoal);color:white;
+  font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  padding:14px 24px;border-radius:1px;
+  box-shadow:0 8px 32px rgba(28,26,23,.25);
+  cursor:pointer;transition:background .3s,gap .3s,transform .2s;
+  border:none;font-family:'Jost',sans-serif;
+  opacity:0;transform:translateY(20px);
+  pointer-events:none;
+}
+.float-cta.show{opacity:1;transform:translateY(0);pointer-events:auto;}
+.float-cta:hover{background:var(--accent);gap:14px;transform:translateY(-2px);}
+.float-cta svg{width:14px;flex-shrink:0;}
+
+/* ═══════════════════════════════════════
+   TEXT FLOW ANIMATIONS
+   ─────────────────────────────────────
+   1. .split-reveal — chars split from center
+   2. .line-up — each line clips upward
+   3. .img-wipe — curtain wipe left→right
+   4. .fade-up — standard fade + rise
+   5. .slide-left, .slide-right — directional
+═══════════════════════════════════════ */
+
+/* Standard fade-up (replaces .reveal) */
+.fade-up{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity .85s cubic-bezier(.22,1,.36,1),
+             transform .85s cubic-bezier(.22,1,.36,1);
+}
+.fade-up.in{opacity:1;transform:none;}
+.fd1{transition-delay:.1s!important;}
+.fd2{transition-delay:.2s!important;}
+.fd3{transition-delay:.32s!important;}
+.fd4{transition-delay:.46s!important;}
+.fd5{transition-delay:.62s!important;}
+
+/* Slide from left */
+.slide-left{
+  opacity:0;transform:translateX(-52px);
+  transition:opacity .85s cubic-bezier(.22,1,.36,1),
+             transform .85s cubic-bezier(.22,1,.36,1);
+}
+.slide-left.in{opacity:1;transform:none;}
+
+/* Slide from right */
+.slide-right{
+  opacity:0;transform:translateX(52px);
+  transition:opacity .85s cubic-bezier(.22,1,.36,1),
+             transform .85s cubic-bezier(.22,1,.36,1);
+}
+.slide-right.in{opacity:1;transform:none;}
+
+/* Scale up */
+.scale-up{
+  opacity:0;transform:scale(.94) translateY(20px);
+  transition:opacity .9s cubic-bezier(.22,1,.36,1),
+             transform .9s cubic-bezier(.22,1,.36,1);
+}
+.scale-up.in{opacity:1;transform:none;}
+
+/* Word-by-word curtain rise — best text flow effect */
+.word-flow .wf-word{
+  display:inline-block;overflow:hidden;
+  vertical-align:bottom;padding-right:.18em;
+}
+.word-flow .wf-word span{
+  display:inline-block;
+  transform:translateY(105%);
+  transition:transform .88s cubic-bezier(.22,1,.36,1);
+}
+.word-flow.wf-in .wf-word:nth-child(1) span{transition-delay:0ms;}
+.word-flow.wf-in .wf-word:nth-child(2) span{transition-delay:55ms;}
+.word-flow.wf-in .wf-word:nth-child(3) span{transition-delay:110ms;}
+.word-flow.wf-in .wf-word:nth-child(4) span{transition-delay:168ms;}
+.word-flow.wf-in .wf-word:nth-child(5) span{transition-delay:225ms;}
+.word-flow.wf-in .wf-word:nth-child(6) span{transition-delay:282ms;}
+.word-flow.wf-in .wf-word:nth-child(7) span{transition-delay:339ms;}
+.word-flow.wf-in .wf-word:nth-child(8) span{transition-delay:396ms;}
+.word-flow.wf-in .wf-word:nth-child(9) span{transition-delay:450ms;}
+.word-flow.wf-in .wf-word:nth-child(n+10) span{transition-delay:504ms;}
+.word-flow.wf-in .wf-word span{transform:translateY(0);}
+
+/* Image curtain wipe */
+.img-wipe{position:relative;overflow:hidden;}
+.img-wipe::after{
+  content:'';position:absolute;inset:0;
+  background:var(--warm);
+  transform-origin:right center;
+  transition:transform 1.1s cubic-bezier(.77,0,.18,1) var(--wd,0ms);
+  z-index:2;pointer-events:none;
+}
+.img-wipe.wipe-in::after{transform:scaleX(0);}
+/* dark variant for dark sections */
+.img-wipe.dark::after{background:var(--charcoal);}
+
+/* Number counter animation */
+.count-num{display:inline-block;transition:all .3s;}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero{
+  height:100vh;position:relative;overflow:hidden;
+  display:flex;align-items:flex-end;
+}
+.hero-bg{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transform:scale(1.08);
+  transition:transform 8s ease;z-index:0;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(28,26,23,.75) 0%,rgba(28,26,23,.3) 60%,rgba(28,26,23,.5) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  padding:0 56px 88px;max-width:760px;
+}
+.hero-eyebrow{
+  font-size:10px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--sand);margin-bottom:22px;display:flex;
+  align-items:center;gap:12px;
+}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--sand);}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(62px,9vw,118px);font-weight:300;
+  line-height:.92;letter-spacing:-.02em;margin-bottom:32px;color:white;
+}
+.hero-title em{font-style:italic;color:var(--sand);}
+.hero-desc{
+  max-width:400px;font-size:14px;font-weight:300;
+  line-height:1.85;color:rgba(255,255,255,.7);margin-bottom:44px;
+}
+/* TWO CTAs in hero — primary + secondary */
+.hero-actions{display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.hero-btn-primary{
+  display:inline-flex;align-items:center;gap:12px;
+  background:white;color:var(--charcoal);
+  font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;
+  padding:16px 36px;text-decoration:none;
+  transition:background .3s,gap .3s,transform .2s;cursor:pointer;
+  border:none;font-family:'Jost',sans-serif;
+}
+.hero-btn-primary:hover{background:var(--cream);gap:18px;transform:translateY(-1px);}
+.hero-btn-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:400;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.3);padding-bottom:4px;
+  transition:color .3s,gap .3s,border-color .3s;
+}
+.hero-btn-secondary:hover{color:white;gap:16px;border-color:white;}
+.hero-btn-secondary svg,.hero-btn-primary svg{width:14px;flex-shrink:0;}
+
+/* Hero trust badges */
+.hero-trust{
+  position:absolute;bottom:88px;right:56px;z-index:3;
+  display:flex;flex-direction:column;gap:10px;
+}
+.trust-badge{
+  background:rgba(28,26,23,.6);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.12);
+  padding:10px 16px;display:flex;align-items:center;gap:10px;
+}
+.trust-badge-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:white;line-height:1;}
+.trust-badge-txt{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);line-height:1.4;}
+.hero-scroll-hint{
+  position:absolute;bottom:56px;left:50%;transform:translateX(-50%);
+  font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.38);z-index:3;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+}
+.hero-scroll-hint::after{
+  content:'';width:1px;height:44px;
+  background:linear-gradient(to bottom,rgba(255,255,255,.3),transparent);
+  animation:scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine{0%,100%{opacity:.6;transform:scaleY(1);}50%{opacity:.1;transform:scaleY(.3);}}
+
+/* ═══════════════════════════════════════
+   MARQUEE
+═══════════════════════════════════════ */
+.marquee-section{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:16px 0;overflow:hidden;background:var(--cream);
+}
+.marquee-track{display:flex;animation:marquee 24s linear infinite;white-space:nowrap;}
+.marquee-track:hover{animation-play-state:paused;}
+.marquee-item{
+  font-family:'Cormorant Garamond',serif;
+  font-size:17px;font-style:italic;color:var(--taupe);
+  padding:0 44px;flex-shrink:0;
+}
+.marquee-dot{color:var(--accent);font-style:normal;}
+@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+.about-strip{display:grid;grid-template-columns:1fr 1fr;min-height:90vh;align-items:stretch;}
+.about-images{position:relative;overflow:hidden;}
+.about-img-main{width:100%;height:100%;object-fit:cover;}
+.about-img-float{
+  position:absolute;bottom:-40px;right:-30px;width:55%;
+  border:6px solid var(--warm);
+  box-shadow:0 20px 60px rgba(0,0,0,.12);
+  transition:transform .6s ease;z-index:2;
+}
+.about-images:hover .about-img-float{transform:translate(-8px,-12px);}
+.about-text{
+  padding:80px 64px;display:flex;flex-direction:column;
+  justify-content:center;background:var(--cream);
+}
+.section-label{
+  font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-label::before{content:'';display:block;width:20px;height:1px;background:var(--accent);}
+.about-text h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,4vw,54px);font-weight:300;line-height:1.15;margin-bottom:28px;
+}
+.about-text h2 em{font-style:italic;color:var(--accent);}
+.about-text p{font-size:14px;line-height:1.9;color:var(--taupe);margin-bottom:16px;max-width:420px;}
+.stats-row{display:flex;gap:40px;margin-top:40px;padding-top:40px;border-top:1px solid var(--border);}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--charcoal);line-height:1;}
+.stat-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--taupe);margin-top:6px;}
+/* CTA after stats */
+.about-cta{
+  display:inline-flex;align-items:center;gap:12px;
+  margin-top:36px;font-size:11px;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--charcoal);text-decoration:none;
+  border-bottom:1px solid var(--charcoal);padding-bottom:4px;
+  width:fit-content;transition:color .3s,gap .3s,border-color .3s;
+}
+.about-cta:hover{color:var(--accent);border-color:var(--accent);gap:18px;}
+
+/* ═══════════════════════════════════════
+   PROCESS SECTION — NEW
+   Shows the 5-step journey. Builds trust,
+   reduces anxiety for potential clients.
+═══════════════════════════════════════ */
+.process-section{background:var(--charcoal);padding:100px 0;}
+.process-inner{max-width:1200px;margin:0 auto;padding:0 56px;}
+.process-header{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:72px;}
+.process-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,5vw,64px);font-weight:300;line-height:1.1;color:white;
+}
+.process-header h2 em{font-style:italic;color:var(--sand);}
+.process-header p{font-size:14px;line-height:1.9;color:rgba(255,255,255,.45);max-width:380px;}
+.process-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid rgba(255,255,255,.1);}
+.process-step{
+  padding:36px 28px;
+  border-right:1px solid rgba(255,255,255,.08);
+  position:relative;
+  transition:background .3s;
+}
+.process-step:last-child{border-right:none;}
+.process-step:hover{background:rgba(255,255,255,.04);}
+.process-step-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:48px;font-weight:300;
+  color:rgba(255,255,255,.12);line-height:1;margin-bottom:16px;
+}
+.process-step-icon{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;
+}
+.process-step-icon svg{width:16px;stroke:rgba(255,255,255,.6);}
+.process-step-title{font-size:14px;font-weight:500;color:white;margin-bottom:8px;letter-spacing:.02em;}
+.process-step-desc{font-size:12px;line-height:1.75;color:rgba(255,255,255,.38);font-weight:300;}
+/* Connector line */
+.process-step::before{
+  content:attr(data-num);
+  position:absolute;top:-1px;left:28px;
+  font-size:9px;letter-spacing:.2em;color:var(--sand);
+  transform:translateY(-50%);background:var(--charcoal);
+  padding:0 8px;text-transform:uppercase;font-weight:500;
+}
+
+/* ═══════════════════════════════════════
+   SECTION HEADER
+═══════════════════════════════════════ */
+.section-header{
+  padding:100px 56px 56px;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+.section-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(44px,5.5vw,76px);font-weight:300;line-height:1;
+}
+.section-header h2 em{font-style:italic;color:var(--accent);}
+.section-header a{
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--charcoal);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:4px;
+  transition:color .3s,border-color .3s;
+}
+.section-header a:hover{color:var(--accent);border-color:var(--accent);}
+
+/* ═══════════════════════════════════════
+   PROJECT CARDS
+═══════════════════════════════════════ */
+.projects-scroll{padding:0 56px 80px;overflow:hidden;}
+.projects-track{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.project-card{position:relative;cursor:pointer;overflow:hidden;border-radius:1px;}
+.project-card:nth-child(2){margin-top:52px;}
+.project-card:nth-child(3){margin-top:-24px;}
+.project-card:nth-child(4){margin-top:36px;}
+.project-card:nth-child(5){margin-top:-16px;}
+.project-card:nth-child(6){margin-top:68px;}
+.project-card-img{
+  display:block;width:100%;aspect-ratio:3/4;object-fit:cover;
+  transform:scale(1);
+  transition:transform .75s cubic-bezier(.25,.46,.45,.94);
+}
+.project-card:hover .project-card-img{transform:scale(1.07);}
+.project-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(28,26,23,.78) 0%,transparent 55%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;padding:26px;
+}
+.project-card:hover .project-card-overlay{opacity:1;}
+.project-card-info{transform:translateY(10px);transition:transform .35s;color:white;}
+.project-card:hover .project-card-info{transform:translateY(0);}
+.project-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.65;margin-bottom:5px;}
+.project-name{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:300;line-height:1.2;}
+.project-num{
+  position:absolute;top:18px;left:18px;
+  font-size:9px;letter-spacing:.15em;color:white;
+  background:rgba(28,26,23,.45);backdrop-filter:blur(8px);
+  padding:4px 10px;border-radius:20px;
+  opacity:0;transition:opacity .35s;
+}
+.project-card:hover .project-num{opacity:1;}
+.tilt-card{transform-style:preserve-3d;}
+
+.projects-cta-wrap{display:flex;justify-content:center;padding:20px 56px 100px;}
+.btn-view-all{
+  display:inline-flex;align-items:center;gap:14px;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--charcoal);border:1px solid var(--charcoal);
+  padding:18px 48px;cursor:pointer;background:transparent;
+  transition:background .3s,color .3s,gap .3s;
+  font-family:'Jost',sans-serif;font-weight:300;
+}
+.btn-view-all:hover{background:var(--charcoal);color:white;gap:20px;}
+.btn-view-all svg{width:14px;}
+
+/* ═══════════════════════════════════════
+   SERVICES — improved for conversion
+   Horizontal list with large image + text
+═══════════════════════════════════════ */
+.services-section{background:var(--cream);padding:100px 0 120px;}
+.services-section .section-header{background:transparent;}
+.services-list{padding:0 56px;display:flex;flex-direction:column;gap:1px;}
+.service-row{
+  display:grid;grid-template-columns:1fr 2fr auto;
+  align-items:center;gap:48px;
+  padding:40px 0;border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background .25s;
+  position:relative;
+}
+.service-row:first-child{border-top:1px solid var(--border);}
+.service-row:hover{padding-left:16px;transition:padding .3s,background .3s;}
+.svc-meta{}
+.svc-num{font-size:11px;letter-spacing:.2em;color:var(--accent);margin-bottom:8px;font-weight:500;}
+.svc-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(24px,3vw,36px);font-weight:300;line-height:1.1;
+}
+.svc-body{}
+.svc-desc{font-size:13px;line-height:1.85;color:var(--taupe);max-width:420px;margin-bottom:14px;}
+.svc-tags{display:flex;gap:6px;flex-wrap:wrap;}
+.svc-tag{
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 10px;border:1px solid var(--border);
+  color:var(--taupe);border-radius:1px;
+}
+.svc-image{
+  width:clamp(140px,12vw,180px);aspect-ratio:4/3;
+  overflow:hidden;border-radius:1px;flex-shrink:0;
+}
+.svc-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.service-row:hover .svc-image img{transform:scale(1.06);}
+.svc-arrow{
+  position:absolute;right:0;top:50%;transform:translateY(-50%) translateX(-8px);
+  opacity:0;transition:opacity .3s,transform .3s;
+  font-size:18px;color:var(--accent);
+}
+.service-row:hover .svc-arrow{opacity:1;transform:translateY(-50%) translateX(0);}
+
+/* ═══════════════════════════════════════
+   PORTFOLIO — EDITORIAL BENTO REDESIGN
+═══════════════════════════════════════ */
+.portfolio-section{padding:0 0 120px;background:var(--warm);}
+
+/* Section intro bar */
+.portfolio-intro{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:end;
+  padding:100px 56px 0;
+  margin-bottom:52px;
+}
+.portfolio-intro-left{}
+.portfolio-intro-left .section-label{margin-bottom:18px;}
+.portfolio-intro-left h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(44px,5.5vw,72px);font-weight:300;line-height:1;
+}
+.portfolio-intro-left h2 em{font-style:italic;color:var(--accent);}
+.portfolio-intro-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:24px;
+  justify-content:flex-end;
+}
+.portfolio-intro-right p{
+  font-size:14px;line-height:1.9;color:var(--taupe);max-width:380px;text-align:right;
+}
+
+/* Tab filters — pill style */
+.pf-tabs{
+  display:flex;gap:3px;
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:4px;
+}
+.pf-tab{
+  font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  padding:9px 20px;border-radius:1px;border:none;background:transparent;
+  color:var(--taupe);cursor:pointer;transition:all .25s;white-space:nowrap;
+}
+.pf-tab.active{background:var(--charcoal);color:white;}
+.pf-tab:hover:not(.active){background:var(--off);color:var(--charcoal);}
+
+/* Tab panels */
+.pf-panels{position:relative;padding:0 56px;}
+.pf-panel{
+  display:none;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1);
+}
+.pf-panel.active{
+  display:block;
+  opacity:1;transform:translateY(0);
+}
+
+/* ── BENTO LAYOUTS ── */
+/* Living: 1 hero left + 2 right stacked + 2 bottom row */
+.pf-bento{display:grid;gap:10px;}
+
+.pf-bento-living{
+  grid-template-columns:1.6fr 1fr;
+  grid-template-rows:420px 260px;
+}
+.pf-bento-living .pi:nth-child(1){grid-column:1;grid-row:1;}
+.pf-bento-living .pi:nth-child(2){grid-column:2;grid-row:1;}
+.pf-bento-living .pi:nth-child(3){grid-column:1;grid-row:2;}
+.pf-bento-living .pi:nth-child(4){grid-column:2;grid-row:2;}
+
+.pf-bento-kitchen{
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:360px 280px;
+}
+.pf-bento-kitchen .pi:nth-child(1){grid-column:1/3;grid-row:1;}
+.pf-bento-kitchen .pi:nth-child(2){grid-column:3;grid-row:1;}
+.pf-bento-kitchen .pi:nth-child(3){grid-column:1;grid-row:2;}
+.pf-bento-kitchen .pi:nth-child(4){grid-column:2;grid-row:2;}
+.pf-bento-kitchen .pi:nth-child(5){grid-column:3;grid-row:2;}
+
+.pf-bento-bedroom{
+  grid-template-columns:1fr 1.4fr 1fr;
+  grid-template-rows:300px 340px;
+}
+.pf-bento-bedroom .pi:nth-child(1){grid-column:1;grid-row:1;}
+.pf-bento-bedroom .pi:nth-child(2){grid-column:2;grid-row:1/3;}
+.pf-bento-bedroom .pi:nth-child(3){grid-column:3;grid-row:1;}
+.pf-bento-bedroom .pi:nth-child(4){grid-column:1;grid-row:2;}
+.pf-bento-bedroom .pi:nth-child(5){grid-column:3;grid-row:2;}
+
+/* All panel — special mosaic */
+.pf-bento-all{
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-rows:300px 240px 320px;
+}
+.pf-bento-all .pi:nth-child(1){grid-column:1/3;grid-row:1;}
+.pf-bento-all .pi:nth-child(2){grid-column:3;grid-row:1;}
+.pf-bento-all .pi:nth-child(3){grid-column:4;grid-row:1;}
+.pf-bento-all .pi:nth-child(4){grid-column:1;grid-row:2;}
+.pf-bento-all .pi:nth-child(5){grid-column:2/4;grid-row:2;}
+.pf-bento-all .pi:nth-child(6){grid-column:4;grid-row:2;}
+.pf-bento-all .pi:nth-child(7){grid-column:1/2;grid-row:3;}
+.pf-bento-all .pi:nth-child(8){grid-column:2/4;grid-row:3;}
+.pf-bento-all .pi:nth-child(9){grid-column:4;grid-row:3;}
+
+/* Portfolio item (pi) */
+.pi{
+  position:relative;overflow:hidden;cursor:pointer;
+  border-radius:1px;
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+}
+.pi:hover{transform:scale(1.012);}
+.pi img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .75s cubic-bezier(.25,.46,.45,.94);
+}
+.pi:hover img{transform:scale(1.06);}
+
+/* Overlay — always visible base, full on hover */
+.pi-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,transparent 40%,rgba(28,26,23,.72) 100%);
+  opacity:0;
+  transition:opacity .35s;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:22px;
+}
+.pi:hover .pi-overlay{opacity:1;}
+
+/* Category pill on image */
+.pi-cat{
+  position:absolute;top:14px;left:14px;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(250,248,244,.88);backdrop-filter:blur(8px);
+  color:var(--charcoal);padding:4px 11px;border-radius:20px;
+  font-weight:500;opacity:0;
+  transition:opacity .3s;
+}
+.pi:hover .pi-cat{opacity:1;}
+
+.pi-label{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:300;font-style:italic;
+  color:white;line-height:1.2;
+  transform:translateY(8px);
+  transition:transform .35s;
+}
+.pi:hover .pi-label{transform:translateY(0);}
+
+.pi-sub{
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(255,255,255,.6);margin-top:4px;
+  transform:translateY(8px);
+  transition:transform .35s .04s;
+}
+.pi:hover .pi-sub{transform:translateY(0);}
+
+/* Strip counter below grid */
+.pf-strip{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:32px 56px 0;
+  border-top:1px solid var(--border);
+  margin-top:10px;
+}
+.pf-strip-count{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--taupe);
+}
+.pf-strip-count strong{color:var(--charcoal);font-weight:500;}
+.pf-strip-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--charcoal);text-decoration:none;
+  border-bottom:1px solid var(--border);padding-bottom:4px;
+  cursor:pointer;background:none;border-left:none;border-top:none;border-right:none;
+  font-family:'Jost',sans-serif;font-weight:300;
+  transition:color .25s,gap .25s,border-color .25s;
+}
+.pf-strip-cta:hover{color:var(--accent);border-color:var(--accent);gap:16px;}
+
+/* ═══════════════════════════════════════
+   FEATURE SECTION
+═══════════════════════════════════════ */
+.feature-section{position:relative;height:90vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.feature-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.1);}
+.feature-overlay{position:absolute;inset:0;background:rgba(28,26,23,.48);}
+.feature-content{position:relative;z-index:2;text-align:center;color:white;padding:0 56px;max-width:700px;}
+.feature-content .section-label{color:rgba(255,255,255,.5);}
+.feature-content .section-label::before{background:rgba(255,255,255,.4);}
+.feature-content h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(50px,7vw,88px);font-weight:300;line-height:1.05;margin-bottom:24px;
+}
+.feature-content h2 em{font-style:italic;}
+.feature-content p{font-size:15px;line-height:1.9;opacity:.75;margin-bottom:40px;max-width:460px;margin-left:auto;margin-right:auto;}
+.btn-light{
+  display:inline-flex;align-items:center;gap:12px;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:white;border:1px solid rgba(255,255,255,.55);
+  padding:16px 36px;text-decoration:none;
+  transition:background .3s,border-color .3s,gap .3s;
+}
+.btn-light:hover{background:rgba(255,255,255,.12);border-color:white;gap:18px;}
+
+/* ═══════════════════════════════════════
+   FAQ
+═══════════════════════════════════════ */
+.faq-section{
+  padding:100px 56px 120px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.faq-left h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(40px,5vw,62px);font-weight:300;line-height:1.1;margin-bottom:24px;
+}
+.faq-left h2 em{font-style:italic;color:var(--accent);}
+.faq-left p{font-size:14px;line-height:1.9;color:var(--taupe);max-width:380px;margin-bottom:32px;}
+.faq-cta-inline{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--charcoal);color:white;
+  font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  padding:14px 28px;text-decoration:none;
+  transition:background .3s,gap .3s;cursor:pointer;
+  border:none;font-family:'Jost',sans-serif;
+}
+.faq-cta-inline:hover{background:var(--accent);gap:16px;}
+.faq-img{margin-top:36px;width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:1px;}
+.faq-list{list-style:none;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-question{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 0;cursor:pointer;font-size:15px;font-weight:400;
+  transition:color .3s;user-select:none;
+}
+.faq-question:hover{color:var(--accent);}
+.faq-icon{
+  width:20px;height:20px;border:1px solid currentColor;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+  transition:transform .3s,background .3s,color .3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--accent);color:white;border-color:var(--accent);}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;font-size:13px;line-height:1.9;color:var(--taupe);}
+.faq-item.open .faq-answer{max-height:200px;padding-bottom:22px;}
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS — improved with photos
+═══════════════════════════════════════ */
+.testimonial-section{
+  background:var(--charcoal);color:white;
+  display:grid;grid-template-columns:1fr 1fr;min-height:72vh;overflow:hidden;
+}
+.testi-image{position:relative;overflow:hidden;}
+.testi-image img{width:100%;height:100%;object-fit:cover;opacity:.72;transition:opacity .4s,transform .6s;}
+.testi-image:hover img{opacity:.85;transform:scale(1.04);}
+.testi-content{display:flex;flex-direction:column;justify-content:center;padding:80px;}
+.quote-mark{font-family:'Cormorant Garamond',serif;font-size:110px;line-height:.7;color:var(--accent);opacity:.35;margin-bottom:16px;}
+.testi-text{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.2vw,26px);
+  font-weight:300;font-style:italic;line-height:1.65;margin-bottom:32px;opacity:.9;
+}
+/* Client profile */
+.testi-profile{display:flex;align-items:center;gap:16px;margin-bottom:12px;}
+.testi-avatar{
+  width:44px;height:44px;border-radius:50%;
+  object-fit:cover;border:2px solid rgba(255,255,255,.15);
+}
+.testi-author{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--sand);}
+.testi-project{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;letter-spacing:.05em;}
+/* Star rating */
+.testi-stars{display:flex;gap:3px;margin-bottom:6px;}
+.testi-stars span{color:#F5A623;font-size:14px;}
+/* Dots */
+.testi-dots{display:flex;gap:8px;margin-top:32px;}
+.t-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .3s,transform .3s;}
+.t-dot.active{background:var(--accent);transform:scale(1.4);}
+
+/* ═══════════════════════════════════════
+   CONVERSION SECTION — NEW
+   A direct, warm ask. Removes friction.
+═══════════════════════════════════════ */
+.conversion-section{
+  padding:100px 56px;
+  background:var(--cream);
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+}
+.conv-left h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(38px,4.5vw,62px);font-weight:300;line-height:1.1;margin-bottom:20px;
+}
+.conv-left h2 em{font-style:italic;color:var(--accent);}
+.conv-left p{font-size:14px;line-height:1.9;color:var(--taupe);max-width:400px;margin-bottom:32px;}
+.conv-trust-list{display:flex;flex-direction:column;gap:14px;margin-bottom:36px;}
+.conv-trust-item{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--taupe);}
+.conv-trust-item svg{width:16px;flex-shrink:0;stroke:var(--accent);}
+/* Contact form */
+.conv-form{background:white;padding:40px;box-shadow:var(--shadow);}
+.conv-form h3{
+  font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;
+  margin-bottom:6px;
+}
+.conv-form p{font-size:13px;color:var(--taupe);margin-bottom:28px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.form-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--taupe);font-weight:500;}
+.form-input,.form-select,.form-textarea{
+  border:none;border-bottom:1px solid var(--border);
+  padding:10px 0;font-size:14px;font-family:'Jost',sans-serif;
+  font-weight:300;color:var(--charcoal);background:transparent;
+  outline:none;width:100%;transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-bottom-color:var(--accent);}
+.form-textarea{resize:none;min-height:80px;}
+.form-select{cursor:pointer;}
+.availability-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.1em;color:var(--green);
+  background:#e8f5ee;padding:6px 14px;border-radius:20px;
+  margin-bottom:20px;font-weight:500;
+}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;transform:scale(0.8);}}
+.form-submit{
+  width:100%;padding:16px;background:var(--charcoal);color:white;
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  transition:background .3s,transform .15s;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.form-submit:hover{background:var(--accent);transform:translateY(-1px);}
+.form-privacy{font-size:11px;color:var(--taupe);text-align:center;margin-top:12px;opacity:.7;}
+
+/* ═══════════════════════════════════════
+   NEWS / JOURNAL
+═══════════════════════════════════════ */
+.news-section{padding:100px 56px 120px;}
+.news-section .section-header{padding-left:0;padding-right:0;}
+.news-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:22px;margin-top:22px;}
+.news-card{overflow:hidden;border-radius:1px;cursor:pointer;}
+.news-card img{width:100%;object-fit:cover;display:block;transition:transform .6s;}
+.news-card:nth-child(1) img{height:380px;}
+.news-card:not(:nth-child(1)) img{height:230px;}
+.news-card:hover img{transform:scale(1.04);}
+.news-card-content{padding:18px 0 8px;}
+.news-date{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:7px;}
+.news-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;line-height:1.4;}
+.news-tag{
+  display:inline-block;font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;background:var(--cream);color:var(--taupe);
+  border-radius:1px;margin-bottom:8px;
+}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{background:var(--charcoal);color:white;}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;
+  padding:80px 56px 64px;
+}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;display:block;margin-bottom:18px;}
+.footer-tagline{font-size:13px;line-height:1.8;color:rgba(255,255,255,.45);margin-bottom:28px;max-width:280px;}
+.newsletter-form{display:flex;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:10px;}
+.newsletter-form input{background:transparent;border:none;outline:none;color:white;font-family:'Jost',sans-serif;font-size:13px;flex:1;}
+.newsletter-form input::placeholder{color:rgba(255,255,255,.3);}
+.newsletter-form button{background:transparent;border:none;color:rgba(255,255,255,.55);cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.08em;transition:color .3s;}
+.newsletter-form button:hover{color:white;}
+.footer-col h4{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:22px;}
+.footer-col ul{list-style:none;}
+.footer-col li{margin-bottom:11px;}
+.footer-col a{color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;transition:color .3s;}
+.footer-col a:hover{color:white;}
+.footer-bottom{
+  padding:22px 56px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.footer-bottom span{font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.04em;}
+
+/* ═══════════════════════════════════════
+   PROJECTS OVERLAY PAGE — CARD GRID
+═══════════════════════════════════════ */
+#projectsPage{
+  position:fixed;inset:0;z-index:2000;
+  background:var(--warm);overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform .65s cubic-bezier(.77,0,.175,1);
+}
+#projectsPage.open{transform:translateX(0);}
+.pp-nav{
+  position:sticky;top:0;z-index:10;
+  background:rgba(250,248,244,.96);backdrop-filter:blur(20px);
+  padding:18px 56px;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--border);
+}
+.pp-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:.04em;}
+.close-pp{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--charcoal);cursor:pointer;background:none;border:none;
+  font-family:'Jost',sans-serif;font-weight:300;transition:color .3s;
+}
+.close-pp:hover{color:var(--accent);}
+.close-pp svg{width:18px;}
+
+/* Hero strip */
+.pp-hero{
+  padding:72px 56px 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;
+  border-bottom:1px solid var(--border);
+}
+.pp-hero-left h1{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,6.5vw,82px);font-weight:300;line-height:.98;margin-bottom:0;}
+.pp-hero-left h1 em{font-style:italic;color:var(--accent);}
+.pp-hero-right{display:flex;flex-direction:column;gap:20px;justify-content:flex-end;}
+.pp-hero-right p{font-size:14px;line-height:1.9;color:var(--taupe);max-width:440px;}
+.pp-stats{display:flex;gap:36px;}
+.pp-stat-num{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--charcoal);line-height:1;}
+.pp-stat-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--taupe);margin-top:4px;}
+
+/* Filter bar */
+.pp-filters{
+  padding:32px 56px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+  gap:20px;flex-wrap:wrap;
+}
+.pp-filter-tabs{display:flex;gap:4px;flex-wrap:wrap;}
+.pp-filter-tab{
+  font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:9px 22px;border:1px solid var(--border);
+  background:transparent;color:var(--taupe);cursor:pointer;
+  transition:all .25s;border-radius:1px;
+}
+.pp-filter-tab:hover,.pp-filter-tab.active{
+  background:var(--charcoal);color:white;border-color:var(--charcoal);
+}
+.pp-results-count{
+  font-size:12px;color:var(--taupe);letter-spacing:.08em;
+}
+.pp-results-count span{font-weight:500;color:var(--charcoal);}
+
+/* Card Grid */
+.pp-grid-wrap{padding:48px 56px 100px;}
+.pp-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+
+/* Individual project card */
+.pp-card{
+  position:relative;cursor:pointer;overflow:hidden;
+  border-radius:2px;background:var(--cream);
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s;
+  display:flex;flex-direction:column;
+}
+.pp-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 20px 60px rgba(28,26,23,.13);
+}
+
+/* Featured card spans 2 columns */
+.pp-card.featured{grid-column:span 2;}
+
+/* Image container */
+.pp-card-img-wrap{
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+.pp-card.featured .pp-card-img-wrap{height:420px;}
+.pp-card:not(.featured) .pp-card-img-wrap{height:280px;}
+
+.pp-card-img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.04);
+  transition:transform .8s cubic-bezier(.25,.46,.45,.94);
+}
+.pp-card:hover .pp-card-img{transform:scale(1);}
+
+/* Category badge */
+.pp-card-badge{
+  position:absolute;top:16px;left:16px;
+  font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  padding:5px 12px;border-radius:20px;
+  background:rgba(28,26,23,.55);backdrop-filter:blur(8px);
+  color:white;font-weight:500;
+  transition:opacity .3s;
+}
+
+/* Image overlay on hover */
+.pp-card-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(28,26,23,.6) 0%,transparent 50%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;padding:22px;
+}
+.pp-card:hover .pp-card-img-overlay{opacity:1;}
+.pp-card-cta-hover{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:white;font-weight:500;
+  transform:translateY(8px);
+  transition:transform .35s;
+}
+.pp-card:hover .pp-card-cta-hover{transform:translateY(0);}
+.pp-card-cta-hover svg{width:12px;}
+
+/* Card body */
+.pp-card-body{
+  padding:24px 26px 28px;
+  display:flex;flex-direction:column;flex:1;
+}
+.pp-card-meta{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;
+}
+.pp-card-num{font-size:10px;letter-spacing:.2em;color:var(--accent);font-weight:500;}
+.pp-card-year{font-size:10px;letter-spacing:.1em;color:var(--taupe);}
+.pp-card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:300;line-height:1.2;
+  margin-bottom:10px;color:var(--charcoal);
+  transition:color .25s;
+}
+.pp-card.featured .pp-card-name{font-size:28px;}
+.pp-card:hover .pp-card-name{color:var(--accent);}
+.pp-card-desc{
+  font-size:13px;line-height:1.8;color:var(--taupe);
+  margin-bottom:18px;flex:1;
+}
+.pp-card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px;}
+.pp-card-tag{
+  font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;border:1px solid var(--border);color:var(--taupe);border-radius:1px;
+}
+.pp-card-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+.pp-card-location{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--taupe);letter-spacing:.04em;
+}
+.pp-card-location svg{width:11px;opacity:.5;}
+.pp-card-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--charcoal);background:none;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-weight:400;
+  transition:color .25s,gap .25s;
+  padding:0;
+}
+.pp-card-link:hover{color:var(--accent);gap:10px;}
+.pp-card-link svg{width:11px;}
+
+/* CTA Banner at bottom of grid */
+.pp-bottom-cta{
+  margin-top:64px;padding:52px 56px;
+  background:var(--charcoal);color:white;
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+}
+.pp-bottom-cta h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(30px,3.5vw,48px);font-weight:300;line-height:1.1;
+}
+.pp-bottom-cta h3 em{font-style:italic;color:var(--sand);}
+.pp-bottom-cta p{font-size:14px;color:rgba(255,255,255,.45);margin-top:10px;max-width:380px;}
+.pp-cta-btn{
+  display:inline-flex;align-items:center;gap:12px;flex-shrink:0;
+  background:white;color:var(--charcoal);
+  font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;
+  padding:16px 36px;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;
+  transition:background .3s,gap .3s;
+}
+.pp-cta-btn:hover{background:var(--cream);gap:18px;}
+.pp-cta-btn svg{width:14px;}
+
+/* Card hidden state for filter */
+.pp-card.hidden{display:none;}
+
+/* ── PP-CARD CLICK INDICATOR ── */
+.pp-card-view-btn{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--charcoal);color:white;
+  padding:9px 18px;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-weight:400;
+  transition:background .25s,gap .25s;
+  border-radius:1px;margin-top:6px;
+}
+.pp-card-view-btn:hover{background:var(--accent);gap:11px;}
+.pp-card-view-btn svg{width:11px;}
+
+/* ═══════════════════════════════════════
+   PROJECT DETAIL DRAWER
+═══════════════════════════════════════ */
+#projectDrawer{
+  position:fixed;inset:0;z-index:3000;
+  pointer-events:none;
+}
+#projectDrawer.open{pointer-events:all;}
+
+.drawer-backdrop{
+  position:absolute;inset:0;
+  background:rgba(28,26,23,.5);backdrop-filter:blur(4px);
+  opacity:0;transition:opacity .45s;cursor:pointer;
+}
+#projectDrawer.open .drawer-backdrop{opacity:1;}
+
+.drawer-panel{
+  position:absolute;top:0;right:0;bottom:0;
+  width:min(860px,92vw);
+  background:var(--warm);
+  transform:translateX(100%);
+  transition:transform .55s cubic-bezier(.77,0,.175,1);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+#projectDrawer.open .drawer-panel{transform:translateX(0);}
+
+/* Drawer nav */
+.drawer-nav{
+  position:sticky;top:0;z-index:5;
+  background:rgba(250,248,244,.96);backdrop-filter:blur(16px);
+  padding:16px 36px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.drawer-nav-label{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--taupe);}
+.drawer-close{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--charcoal);background:none;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;font-weight:300;transition:color .25s;
+}
+.drawer-close:hover{color:var(--accent);}
+.drawer-close svg{width:16px;}
+
+/* Drawer hero image */
+.drawer-hero-img{
+  width:100%;height:380px;object-fit:cover;display:block;flex-shrink:0;
+}
+
+/* Drawer content body */
+.drawer-body{padding:40px 36px 60px;flex:1;}
+
+/* Top meta row */
+.drawer-meta-row{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:24px;
+  margin-bottom:28px;flex-wrap:wrap;
+}
+.drawer-num{font-size:10px;letter-spacing:.22em;color:var(--accent);font-weight:500;text-transform:uppercase;margin-bottom:8px;}
+.drawer-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,5vw,52px);font-weight:300;line-height:1.05;
+}
+.drawer-title em{font-style:italic;color:var(--accent);}
+.drawer-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;}
+.drawer-tag{font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--border);color:var(--taupe);}
+
+/* Specs grid */
+.drawer-specs{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  border:1px solid var(--border);margin-bottom:32px;
+}
+.drawer-spec{
+  padding:18px 20px;border-right:1px solid var(--border);
+}
+.drawer-spec:last-child{border-right:none;}
+.drawer-spec-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);margin-bottom:5px;}
+.drawer-spec-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:var(--charcoal);}
+
+/* Description */
+.drawer-desc{font-size:14px;line-height:1.95;color:var(--taupe);margin-bottom:32px;max-width:620px;}
+
+/* Section heading inside drawer */
+.drawer-section-title{
+  font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;font-weight:500;
+  display:flex;align-items:center;gap:10px;
+}
+.drawer-section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* 4 Design images grid */
+.drawer-designs{
+  display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:240px 200px;gap:8px;margin-bottom:36px;
+}
+.drawer-design-item{position:relative;overflow:hidden;cursor:pointer;}
+.drawer-design-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease;}
+.drawer-design-item:hover img{transform:scale(1.05);}
+.drawer-design-label{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(to top,rgba(28,26,23,.72),transparent);
+  padding:20px 16px 12px;
+  font-size:11px;color:white;font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:14px;
+  opacity:0;transition:opacity .3s;
+}
+.drawer-design-item:hover .drawer-design-label{opacity:1;}
+.drawer-design-num{
+  position:absolute;top:10px;left:10px;
+  font-size:9px;letter-spacing:.14em;text-transform:uppercase;
+  background:rgba(250,248,244,.9);color:var(--charcoal);
+  padding:3px 9px;
+}
+
+/* Material palette */
+.drawer-palette{display:flex;gap:10px;margin-bottom:36px;flex-wrap:wrap;}
+.drawer-swatch{
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+}
+.drawer-swatch-color{
+  width:52px;height:52px;border-radius:50%;
+  border:1px solid rgba(28,26,23,.1);
+}
+.drawer-swatch-name{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--taupe);text-align:center;max-width:60px;}
+
+/* Highlights list */
+.drawer-highlights{display:flex;flex-direction:column;gap:10px;margin-bottom:36px;}
+.drawer-highlight{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:13px;color:var(--taupe);line-height:1.6;
+}
+.drawer-highlight::before{
+  content:'';width:4px;height:4px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;margin-top:7px;
+}
+
+/* Drawer CTA */
+.drawer-cta-row{
+  display:flex;gap:12px;flex-wrap:wrap;padding-top:28px;
+  border-top:1px solid var(--border);
+}
+.drawer-cta-primary{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--charcoal);color:white;
+  font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;
+  padding:14px 28px;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;
+  transition:background .3s,gap .3s;
+}
+.drawer-cta-primary:hover{background:var(--accent);gap:16px;}
+.drawer-cta-primary svg{width:13px;}
+.drawer-cta-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--charcoal);background:transparent;
+  border:1px solid var(--border);
+  padding:14px 24px;cursor:pointer;
+  font-family:'Jost',sans-serif;font-weight:300;
+  transition:border-color .25s,color .25s;
+}
+.drawer-cta-secondary:hover{border-color:var(--charcoal);color:var(--accent);}
+
+/* Prev/next nav at bottom of drawer */
+.drawer-pn{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:20px 36px;border-top:1px solid var(--border);
+  background:var(--cream);flex-shrink:0;
+}
+.drawer-pn-btn{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--taupe);background:none;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;transition:color .25s;
+}
+.drawer-pn-btn:hover{color:var(--charcoal);}
+.drawer-pn-btn svg{width:14px;}
+.drawer-pn-count{font-size:11px;color:var(--taupe);letter-spacing:.1em;}
+
+/* ── HERO FLOATING IMAGE ── */
+.hero-img-float{
+  position:absolute;right:56px;top:50%;transform:translateY(-40%);
+  z-index:3;width:clamp(200px,22vw,320px);
+  border:3px solid rgba(255,255,255,.18);
+  box-shadow:0 32px 80px rgba(0,0,0,.4);
+  overflow:hidden;border-radius:2px;
+  animation:heroFloatIn 1.2s cubic-bezier(.22,1,.36,1) .8s both;
+}
+.hero-img-float img{
+  width:100%;height:clamp(200px,26vw,360px);
+  object-fit:cover;display:block;
+  transition:transform .6s ease;
+}
+.hero-img-float:hover img{transform:scale(1.05);}
+.hero-img-float-label{
+  background:rgba(28,26,23,.82);backdrop-filter:blur(12px);
+  padding:12px 16px;
+}
+.hero-img-float-tag{
+  display:block;font-size:8px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--sand);margin-bottom:4px;
+}
+.hero-img-float-name{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:13px;font-weight:300;font-style:italic;color:white;
+}
+@keyframes heroFloatIn{
+  from{opacity:0;transform:translateY(-30%) translateX(40px);}
+  to{opacity:1;transform:translateY(-40%) translateX(0);}
+}
+
+@media(max-width:1024px){
+  .process-steps{grid-template-columns:1fr 1fr;}
+  .process-step:nth-child(2){border-right:none;}
+  .conversion-section{grid-template-columns:1fr;}
+  .hero-trust{display:none;}
+  .hero-img-float{display:none;}
+}
+@media(max-width:1100px){
+  .pp-grid{grid-template-columns:repeat(2,1fr);}
+  .pp-card.featured{grid-column:span 2;}
+  .pf-bento-all{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .pf-bento-all .pi{grid-column:auto!important;grid-row:auto!important;height:240px;}
+  .pf-bento-kitchen{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .pf-bento-kitchen .pi:nth-child(1){grid-column:1/3;grid-row:auto;height:320px;}
+  .pf-bento-kitchen .pi:not(:nth-child(1)){grid-column:auto;height:220px;}
+  .pf-bento-bedroom{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .pf-bento-bedroom .pi{grid-column:auto!important;grid-row:auto!important;height:240px;}
+}
+
+@media(max-width:900px){
+  /* NAV */
+  nav{padding:16px 20px;}
+  nav.scrolled{padding:14px 20px;}
+  .nav-links{display:none;}
+  .nav-hamburger{display:flex;}
+  .mobile-menu{display:flex;}
+
+  /* HERO */
+  .hero-content{padding:0 24px 72px;max-width:100%;}
+  .hero-title{font-size:clamp(52px,13vw,80px);}
+  .hero-actions{flex-direction:column;align-items:flex-start;gap:16px;}
+  .hero-btn-primary,.hero-btn-secondary{font-size:10px;}
+  .hero-scroll-hint{display:none;}
+  .hero-img-float{display:none;}
+  .hero-trust{
+    display:flex;flex-direction:row;gap:8px;
+    bottom:auto;top:auto;right:auto;
+    position:relative;z-index:3;
+    margin-top:24px;flex-wrap:wrap;
+  }
+  .trust-badge{padding:8px 12px;}
+  .trust-badge-num{font-size:16px;}
+
+  /* MARQUEE */
+  .marquee-section{padding:12px 0;}
+
+  /* ABOUT */
+  .about-strip{grid-template-columns:1fr;}
+  .about-images{height:340px;}
+  .about-img-float{display:none;}
+  .about-text{padding:44px 24px;}
+
+  /* PROCESS */
+  .process-inner{padding:0 20px;}
+  .process-section{padding:72px 0;}
+  .process-header{grid-template-columns:1fr;gap:20px;margin-bottom:48px;}
+  .process-steps{grid-template-columns:1fr;}
+  .process-step{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);padding:24px 20px;}
+
+  /* SECTION HEADER */
+  .section-header{padding:72px 20px 40px;flex-direction:column;align-items:flex-start;gap:12px;}
+
+  /* PROJECTS GRID */
+  .projects-scroll{padding:0 20px 60px;}
+  .projects-track{grid-template-columns:1fr 1fr;gap:14px;}
+  .project-card:nth-child(odd){margin-top:0;}
+  .project-card:nth-child(even){margin-top:28px;}
+  .projects-cta-wrap{padding:0 20px 60px;}
+
+  /* SERVICES */
+  .services-section .section-header{padding-left:20px;padding-right:20px;}
+  .services-list{padding:0 20px;}
+  .service-row{grid-template-columns:1fr;padding:28px 0;}
+  .svc-image{display:none;}
+
+  /* PORTFOLIO */
+  .portfolio-intro{grid-template-columns:1fr;gap:20px;padding:60px 20px 0;}
+  .portfolio-intro-right{align-items:flex-start;}
+  .portfolio-intro-right p{text-align:left;max-width:100%;}
+  .pf-tabs{flex-wrap:wrap;gap:4px;}
+  .pf-tab{font-size:10px;padding:8px 14px;letter-spacing:.1em;}
+  .pf-panels{padding:0 20px;}
+  .pf-strip{padding:20px 20px 0;}
+  .pf-bento-living{grid-template-columns:1fr 1fr;grid-template-rows:200px 180px;}
+  .pf-bento-all{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .pf-bento-all .pi{grid-column:auto!important;grid-row:auto!important;height:180px;}
+  .pf-bento-kitchen,.pf-bento-bedroom{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .pf-bento-kitchen .pi,.pf-bento-bedroom .pi{grid-column:auto!important;grid-row:auto!important;height:180px;}
+  .pf-bento-kitchen .pi:nth-child(1){grid-column:1/3!important;height:240px;}
+
+  /* FEATURE */
+  .feature-content{padding:0 24px;}
+  .feature-content h2{font-size:clamp(38px,8vw,60px);}
+
+  /* TESTIMONIALS */
+  .testimonial-section{grid-template-columns:1fr;}
+  .testi-image{height:300px;}
+  .testi-content{padding:44px 24px;}
+
+  /* FAQ */
+  .faq-section{padding:60px 20px 80px;grid-template-columns:1fr;gap:40px;}
+  .faq-img{display:none;}
+
+  /* CONTACT */
+  .conversion-section{padding:60px 20px;grid-template-columns:1fr;gap:40px;}
+  .conv-form{padding:24px;}
+  .form-row{grid-template-columns:1fr;}
+
+  /* NEWS */
+  .news-section{padding:60px 20px 80px;}
+  .news-section .section-header{padding:0;}
+  .news-grid{grid-template-columns:1fr;}
+  .news-card:nth-child(1) img{height:280px;}
+
+  /* FOOTER */
+  .footer-top{grid-template-columns:1fr 1fr;gap:28px;padding:52px 20px 40px;}
+  .footer-bottom{padding:18px 20px;flex-direction:column;gap:8px;text-align:center;}
+
+  /* PP overlay */
+  .pp-hero{grid-template-columns:1fr;gap:20px;padding:40px 20px 28px;}
+  .pp-filters{padding:16px 20px;}
+  .pp-filter-tabs{flex-wrap:wrap;gap:6px;}
+  .pp-filter-tab{padding:8px 14px;font-size:10px;}
+  .pp-grid-wrap{padding:28px 20px 72px;}
+  .pp-grid{grid-template-columns:1fr;gap:16px;}
+  .pp-card.featured{grid-column:span 1;}
+  .pp-card.featured .pp-card-img-wrap{height:260px;}
+  .pp-card:not(.featured) .pp-card-img-wrap{height:210px;}
+  .pp-bottom-cta{flex-direction:column;gap:20px;padding:36px 20px;text-align:center;}
+  .pp-nav{padding:14px 20px;}
+}
+
+@media(max-width:520px){
+  .projects-track{grid-template-columns:1fr;}
+  .project-card:nth-child(even){margin-top:0;}
+  .footer-top{grid-template-columns:1fr;}
+  .pf-bento-living{grid-template-columns:1fr;grid-template-rows:auto;}
+  .pf-bento-living .pi{grid-column:auto!important;grid-row:auto!important;height:220px;}
+  .pf-bento-all .pi,.pf-bento-kitchen .pi,.pf-bento-bedroom .pi{height:200px;}
+  .pf-bento-kitchen .pi:nth-child(1){grid-column:1!important;height:200px;}
+  .hero-btn-primary{width:100%;justify-content:center;}
+  nav{padding:14px 16px;}
+}
+/* ═══════════════════════════════════════
+   3D PROJECT CARDS GRID
+═══════════════════════════════════════ */
+.proj3d-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:28px;
+  padding:48px 56px 64px;
+}
+.proj3d-card{
+  perspective:900px;
+  cursor:pointer;
+  position:relative;
+  border-radius:3px;
+  height:380px;
+}
+.proj3d-inner{
+  width:100%;height:100%;
+  position:relative;overflow:hidden;
+  border-radius:3px;
+  transform:rotateX(0deg) rotateY(0deg) scale(1);
+  transform-style:preserve-3d;
+  transition:transform .08s linear, box-shadow .3s ease;
+  box-shadow:0 8px 32px rgba(28,26,23,.12);
+  will-change:transform;
+}
+.proj3d-card:hover .proj3d-inner{
+  box-shadow:0 28px 72px rgba(28,26,23,.28);
+}
+.proj3d-inner img{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+  display:block;
+  transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+}
+.proj3d-card:hover .proj3d-inner img{transform:scale(1.06);}
+
+/* Shine overlay */
+.proj3d-shine{
+  position:absolute;inset:0;z-index:2;
+  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.18) 0%, transparent 65%);
+  pointer-events:none;
+  transition:opacity .3s;
+  opacity:0;
+  border-radius:3px;
+}
+.proj3d-card:hover .proj3d-shine{opacity:1;}
+
+/* Dark gradient overlay */
+.proj3d-overlay{
+  position:absolute;inset:0;z-index:3;
+  background:linear-gradient(to top, rgba(28,26,23,.88) 0%, rgba(28,26,23,.2) 50%, rgba(28,26,23,0) 100%);
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  padding:18px;
+  border-radius:3px;
+}
+.proj3d-cat{
+  align-self:flex-start;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  background:rgba(250,248,244,.9);backdrop-filter:blur(8px);
+  color:var(--charcoal);padding:5px 12px;border-radius:20px;
+  font-weight:500;
+  transform:translateY(-4px);opacity:0;
+  transition:transform .35s cubic-bezier(.22,1,.36,1), opacity .35s;
+}
+.proj3d-card:hover .proj3d-cat{transform:translateY(0);opacity:1;}
+
+.proj3d-info{display:flex;flex-direction:column;gap:4px;}
+.proj3d-num{
+  font-size:10px;letter-spacing:.22em;color:var(--sand);
+  font-weight:500;text-transform:uppercase;
+}
+.proj3d-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(18px,2.2vw,24px);font-weight:300;
+  color:white;line-height:1.15;
+  transform:translateY(8px);
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
+}
+.proj3d-card:hover .proj3d-name{transform:translateY(0);}
+.proj3d-loc{
+  font-size:11px;letter-spacing:.08em;
+  color:rgba(255,255,255,.55);
+  transform:translateY(8px);
+  transition:transform .35s .04s cubic-bezier(.22,1,.36,1);
+}
+.proj3d-card:hover .proj3d-loc{transform:translateY(0);}
+.proj3d-hint{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);margin-top:6px;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .3s .08s, transform .3s .08s;
+}
+.proj3d-hint svg{width:11px;}
+.proj3d-card:hover .proj3d-hint{opacity:1;transform:translateY(0);}
+
+/* ═══════════════════════════════════════
+   PROJECT MODAL POPUP
+═══════════════════════════════════════ */
+#projectModal{
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(28,26,23,.7);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s cubic-bezier(.22,1,.36,1);
+}
+#projectModal.open{opacity:1;pointer-events:all;}
+
+.pm-panel{
+  background:var(--warm);
+  width:100%;max-width:820px;
+  max-height:90vh;overflow-y:auto;
+  border-radius:4px;
+  box-shadow:0 40px 120px rgba(0,0,0,.35);
+  position:relative;
+  transform:translateY(32px) scale(.97);
+  transition:transform .4s cubic-bezier(.22,1,.36,1);
+  scrollbar-width:thin;scrollbar-color:var(--sand) transparent;
+}
+#projectModal.open .pm-panel{transform:translateY(0) scale(1);}
+
+.pm-close{
+  position:sticky;top:16px;float:right;margin:16px 16px 0 0;
+  z-index:10;width:38px;height:38px;border-radius:50%;
+  background:rgba(28,26,23,.75);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .25s;
+}
+.pm-close svg{width:16px;stroke:white;}
+.pm-close:hover{background:var(--accent);}
+
+.pm-hero{
+  position:relative;height:320px;overflow:hidden;
+  margin-top:-54px; /* pull up behind sticky close btn */
+  border-radius:4px 4px 0 0;
+}
+.pm-hero img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s ease;
+}
+#projectModal.open .pm-hero img{transform:scale(1.04);}
+.pm-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg, transparent 30%, rgba(28,26,23,.78) 100%);
+}
+.pm-hero-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 32px;
+}
+.pm-cat{
+  display:inline-block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  background:rgba(250,248,244,.9);color:var(--charcoal);
+  padding:4px 12px;border-radius:20px;font-weight:500;margin-bottom:10px;
+}
+.pm-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,42px);font-weight:300;
+  color:white;line-height:1.05;margin-bottom:6px;
+}
+.pm-loc{font-size:12px;letter-spacing:.1em;color:rgba(255,255,255,.55);}
+
+.pm-body{padding:32px;}
+.pm-specs{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--border);margin-bottom:28px;
+}
+.pm-spec{padding:16px 18px;border-right:1px solid var(--border);}
+.pm-spec:last-child{border-right:none;}
+.pm-spec-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--taupe);margin-bottom:4px;}
+.pm-spec-val{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:var(--charcoal);}
+
+.pm-desc{
+  font-size:14px;line-height:1.95;color:var(--taupe);
+  margin-bottom:28px;max-width:640px;
+}
+
+.pm-gallery{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  margin-bottom:24px;
+}
+.pm-gallery img{
+  width:100%;height:180px;object-fit:cover;
+  border-radius:2px;display:block;
+  transition:transform .5s ease;cursor:pointer;
+}
+.pm-gallery img:hover{transform:scale(1.03);}
+
+.pm-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px;}
+.pm-tag{
+  font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:4px 11px;border:1px solid var(--border);color:var(--taupe);
+  border-radius:1px;
+}
+
+.pm-cta-row{padding-top:20px;border-top:1px solid var(--border);}
+.pm-cta-primary{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--charcoal);color:white;
+  font-size:11px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;
+  padding:14px 28px;border:none;cursor:pointer;
+  font-family:'Jost',sans-serif;
+  transition:background .3s,gap .3s;
+}
+.pm-cta-primary:hover{background:var(--accent);gap:18px;}
+.pm-cta-primary svg{width:13px;}
+
+@media(max-width:680px){
+  .proj3d-grid{grid-template-columns:1fr 1fr;gap:16px;padding:32px 20px 48px;}
+  .proj3d-card{height:280px;}
+  .pm-specs{grid-template-columns:1fr 1fr;}
+  .pm-spec:nth-child(2){border-right:none;}
+  .pm-spec:nth-child(3){border-top:1px solid var(--border);}
+  .pm-gallery{grid-template-columns:1fr;}
+}
+@media(max-width:440px){
+  .proj3d-grid{grid-template-columns:1fr;gap:14px;padding:24px 16px 40px;}
+  .proj3d-card{height:260px;}
+  .pm-body{padding:20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Floating Book CTA -->
+<button class="float-cta" id="floatCta" onclick="scrollToForm()">
+  Book a Free Consultation
+  <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="closeMobileMenu()">&#10005;</button>
+  <a href="aurenza_final (3).html" onclick="closeMobileMenu();">Home</a>
+  <a href="#" onclick="closeMobileMenu();openProjectsPage();return false;">Projects</a>
+  <a href="#services" onclick="closeMobileMenu();">Services</a>
+  <a href="#portfolio" onclick="closeMobileMenu();">Portfolio</a>
+  <a href="#contact" onclick="closeMobileMenu();scrollToForm();return false;">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">Aurenza</a>
+  <ul class="nav-links">
+    <li><a href="aurenza_final (3).html">Home</a></li>
+    <li><a href="#" onclick="openProjectsPage();return false;">Projects</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta" onclick="scrollToForm();return false;">Book Consultation &#8594;</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ PROJECTS OVERLAY ══ -->
+<div id="projectsPage">
+  <div class="pp-nav">
+    <span class="pp-title">All Projects — Aurenza Studio</span>
+    <button class="close-pp" onclick="closeProjectsPage()">
+      Close
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+
+  <!-- Hero Strip -->
+  <div class="pp-hero">
+    <div class="pp-hero-left">
+      <h1>Selected<br><em>Works</em></h1>
+    </div>
+    <div class="pp-hero-right">
+      <p>Fourteen years of spaces that breathe — each project a dialogue between our craft and the unique lives of our clients.</p>
+      <div class="pp-stats">
+        <div><div class="pp-stat-num">240+</div><div class="pp-stat-label">Projects</div></div>
+        <div><div class="pp-stat-num">28</div><div class="pp-stat-label">Awards</div></div>
+        <div><div class="pp-stat-num">14yr</div><div class="pp-stat-label">Experience</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 Project Cards — 3D tilt grid -->
+  <div class="proj3d-grid" id="proj3dGrid">
+
+    <div class="proj3d-card" onclick="openProjectModal(0)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=900&q=85" alt="The Ivory Residence">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Residential</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">01</div>
+            <div class="proj3d-name">The Ivory Residence</div>
+            <div class="proj3d-loc">Mumbai · 4,200 sq ft</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj3d-card" onclick="openProjectModal(1)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85" alt="Warm Mineral Kitchen">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Residential</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">02</div>
+            <div class="proj3d-name">Warm Mineral Kitchen</div>
+            <div class="proj3d-loc">Delhi · Open Plan</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj3d-card" onclick="openProjectModal(2)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85" alt="Serene Retreat Suite">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Residential</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">03</div>
+            <div class="proj3d-name">Serene Retreat Suite</div>
+            <div class="proj3d-loc">Bangalore · En-Suite</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj3d-card" onclick="openProjectModal(3)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=900&q=85" alt="Loft Studio Office">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Workspace</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">04</div>
+            <div class="proj3d-name">Loft Studio Office</div>
+            <div class="proj3d-loc">Hyderabad · 6,000 sq ft</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj3d-card" onclick="openProjectModal(4)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=85" alt="Curved Light House">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Residential</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">05</div>
+            <div class="proj3d-name">Curved Light House</div>
+            <div class="proj3d-loc">Chennai · Arched Interiors</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="proj3d-card" onclick="openProjectModal(5)">
+      <div class="proj3d-inner">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85" alt="The Prestige Lobby">
+        <div class="proj3d-shine"></div>
+        <div class="proj3d-overlay">
+          <span class="proj3d-cat">Commercial</span>
+          <div class="proj3d-info">
+            <div class="proj3d-num">06</div>
+            <div class="proj3d-name">The Prestige Lobby</div>
+            <div class="proj3d-loc">Bangalore · 12,000 sq ft</div>
+            <div class="proj3d-hint">Click to explore <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /proj3d-grid -->
+
+  <!-- Bottom CTA -->
+  <div class="pp-bottom-cta">
+    <div>
+      <h3>Have a space in<br><em>mind?</em></h3>
+      <p>Tell us about your project and we'll schedule a free 30-minute discovery call — no commitment required.</p>
+    </div>
+    <button class="pp-cta-btn" onclick="scrollToForm();closeProjectsPage();">
+      Book a Free Consultation
+      <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+</div><!-- /projectsPage -->
+
+<!-- ══ PROJECT MODAL ══ -->
+<div id="projectModal" onclick="if(event.target===this)closeProjectModal()">
+  <div class="pm-panel" id="pmPanel">
+    <button class="pm-close" onclick="closeProjectModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="pm-hero">
+      <img id="pmImg" src="" alt="">
+      <div class="pm-hero-overlay"></div>
+      <div class="pm-hero-info">
+        <span class="pm-cat" id="pmCat"></span>
+        <h2 class="pm-title" id="pmTitle"></h2>
+        <p class="pm-loc" id="pmLoc"></p>
+      </div>
+    </div>
+    <div class="pm-body">
+      <div class="pm-specs" id="pmSpecs"></div>
+      <p class="pm-desc" id="pmDesc"></p>
+      <div class="pm-gallery" id="pmGallery"></div>
+      <div class="pm-tags" id="pmTags"></div>
+      <div class="pm-cta-row">
+        <button class="pm-cta-primary" onclick="scrollToForm();closeProjectModal();closeProjectsPage();">
+          Start a Similar Project
+          <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <img src="https://images.unsplash.com/photo-1600210491892-03d54730d73a?w=1920&q=90" alt="Luxury Interior Design" class="hero-bg" id="heroImg">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Interior Design Studio — Bangalore</span>
+    <h1 class="hero-title word-flow" id="heroTitle">
+      Where<br>Space <em>Meets</em><br>Soul
+    </h1>
+    <p class="hero-desc">We craft living environments that resonate deeply — balancing light, form, and texture into spaces that feel inevitable.</p>
+    <div class="hero-actions">
+      <button class="hero-btn-primary" onclick="openProjectsPage()">
+        Explore Our Work
+        <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a href="#contact" class="hero-btn-secondary" onclick="scrollToForm();return false;">
+        Book Free Consultation
+        <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating interior image overlay — right side -->
+  <div class="hero-img-float">
+    <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=85" alt="Interior detail">
+    <div class="hero-img-float-label">
+      <span class="hero-img-float-tag">Recent Project</span>
+      <span class="hero-img-float-name">Curved Light House — Chennai</span>
+    </div>
+  </div>
+
+  <!-- Trust badges -->
+  <div class="hero-trust">
+    <div class="trust-badge">
+      <div class="trust-badge-num">240+</div>
+      <div class="trust-badge-txt">Projects<br>Completed</div>
+    </div>
+    <div class="trust-badge">
+      <div class="trust-badge-num">4.9★</div>
+      <div class="trust-badge-txt">Google<br>Rating</div>
+    </div>
+    <div class="trust-badge">
+      <div class="trust-badge-num">14yr</div>
+      <div class="trust-badge-txt">Industry<br>Experience</div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">Scroll</div>
+</section>
+
+<!-- ══ MARQUEE ══ -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Residential Design</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Commercial Spaces</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Work Spaces</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Spatial Planning</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Lighting Design</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Material Sourcing</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Residential Design</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Commercial Spaces</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Work Spaces</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Spatial Planning</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Lighting Design</span><span class="marquee-dot"> · </span>
+    <span class="marquee-item">Material Sourcing</span><span class="marquee-dot"> · </span>
+  </div>
+</div>
+
+<!-- ══ ABOUT ══ -->
+<section class="about-strip fade-up">
+  <div class="about-images">
+    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80" alt="Interior" class="about-img-main img-wipe" id="aboutMainImg">
+    <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&q=80" alt="Detail" class="about-img-float img-wipe" style="--wd:200ms" id="aboutFloatImg">
+  </div>
+  <div class="about-text">
+    <p class="section-label slide-left">About the Studio</p>
+    <h2 class="word-flow" id="aboutH2">We design spaces that <em>breathe</em> with intention</h2>
+    <p class="fade-up fd1">Aurenza Studio was founded on the belief that interior design is not decoration — it is the architecture of feeling. Every room we touch is an opportunity to create an environment that elevates how you live.</p>
+    <p class="fade-up fd2">Our approach combines rigorous spatial thinking with a deep sensitivity to materials, light, and the invisible rhythms of daily life.</p>
+    <div class="stats-row fade-up fd3">
+      <div><div class="stat-num" data-target="240">0</div><div class="stat-label">Projects</div></div>
+      <div><div class="stat-num" data-target="14">0</div><div class="stat-label">Years</div></div>
+      <div><div class="stat-num" data-target="28">0</div><div class="stat-label">Awards</div></div>
+    </div>
+    <a href="#contact" class="about-cta fade-up fd4" onclick="scrollToForm();return false;">
+      Start Your Project
+      <svg viewBox="0 0 14 14" fill="none" width="14"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══ PROCESS (NEW) ══ -->
+<section class="process-section">
+  <div class="process-inner">
+    <div class="process-header">
+      <h2 class="word-flow" id="processH2">How We <em>Work</em></h2>
+      <p class="fade-up fd1">A clear, collaborative process designed to make designing your space feel effortless — not overwhelming.</p>
+    </div>
+    <div class="process-steps fade-up fd2">
+      <div class="process-step" data-num="01">
+        <div class="process-step-num">01</div>
+        <div class="process-step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div class="process-step-title">Discovery Call</div>
+        <div class="process-step-desc">A free 30-minute consultation to understand your vision, space, timeline, and budget — no commitment required.</div>
+      </div>
+      <div class="process-step" data-num="02">
+        <div class="process-step-num">02</div>
+        <div class="process-step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <div class="process-step-title">Concept Design</div>
+        <div class="process-step-desc">We develop 2–3 concept directions with mood boards, material palettes, and spatial sketches for your approval.</div>
+      </div>
+      <div class="process-step" data-num="03">
+        <div class="process-step-num">03</div>
+        <div class="process-step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="process-step-title">Design Development</div>
+        <div class="process-step-desc">Detailed floor plans, elevations, material specifications, and a full BOQ — everything needed to build with precision.</div>
+      </div>
+      <div class="process-step" data-num="04">
+        <div class="process-step-num">04</div>
+        <div class="process-step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        </div>
+        <div class="process-step-title">Procurement</div>
+        <div class="process-step-desc">We handle sourcing, vendor management, and quality checks — leveraging relationships built over 14 years.</div>
+      </div>
+      <div class="process-step" data-num="05">
+        <div class="process-step-num">05</div>
+        <div class="process-step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="process-step-title">Handover & Care</div>
+        <div class="process-step-desc">On-site supervision through installation, final styling, and a walkthrough to ensure every detail is exactly right.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS GRID ══ -->
+<div class="section-header fade-up">
+  <h2>Selected <em>Works</em></h2>
+  <a href="#" onclick="openProjectsPage();return false;">View All Projects →</a>
+</div>
+<div class="projects-scroll">
+  <div class="projects-track">
+    <div class="project-card fade-up tilt-card">
+      <span class="project-num">01</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Living Space · Mumbai</div><div class="project-name">The Ivory Residence</div></div></div>
+    </div>
+    <div class="project-card fade-up fd1 tilt-card">
+      <span class="project-num">02</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Kitchen · Delhi</div><div class="project-name">Warm Mineral Kitchen</div></div></div>
+    </div>
+    <div class="project-card fade-up fd2 tilt-card">
+      <span class="project-num">03</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Bedroom · Bangalore</div><div class="project-name">Serene Retreat Suite</div></div></div>
+    </div>
+    <div class="project-card fade-up fd1 tilt-card">
+      <span class="project-num">04</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Office · Hyderabad</div><div class="project-name">Loft Studio Office</div></div></div>
+    </div>
+    <div class="project-card fade-up fd2 tilt-card">
+      <span class="project-num">05</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Dining · Pune</div><div class="project-name">The Garden Table</div></div></div>
+    </div>
+    <div class="project-card fade-up fd3 tilt-card">
+      <span class="project-num">06</span>
+      <img class="project-card-img" src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80" alt="">
+      <div class="project-card-overlay"><div class="project-card-info"><div class="project-tag">Living · Chennai</div><div class="project-name">Curved Light House</div></div></div>
+    </div>
+  </div>
+</div>
+<div class="projects-cta-wrap">
+  <button class="btn-view-all" onclick="openProjectsPage()">
+    View All Projects
+    <svg viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<!-- ══ SERVICES ══ -->
+<section class="services-section" id="services">
+  <div class="section-header fade-up">
+    <h2>Services We <em>Provide</em></h2>
+  </div>
+  <div class="services-list">
+    <div class="service-row fade-up">
+      <div class="svc-meta">
+        <div class="svc-num">01 —</div>
+        <div class="svc-title">Residential<br>Interiors</div>
+      </div>
+      <div class="svc-body">
+        <p class="svc-desc">Full-service design for homes that feel uniquely yours — from initial concept to the final cushion. We handle every detail so the result is seamless and deeply personal.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Complete Home Design</span>
+          <span class="svc-tag">Custom Furniture</span>
+          <span class="svc-tag">Material Selection</span>
+          <span class="svc-tag">Art Curation</span>
+        </div>
+      </div>
+      <div class="svc-image img-wipe" style="--wd:100ms"><img src="https://images.unsplash.com/photo-1600210491892-03d54730d73a?w=600&q=80" alt="Residential Interiors"></div>
+      <span class="svc-arrow">→</span>
+    </div>
+    <div class="service-row fade-up fd1">
+      <div class="svc-meta">
+        <div class="svc-num">02 —</div>
+        <div class="svc-title">Commercial<br>Spaces</div>
+      </div>
+      <div class="svc-body">
+        <p class="svc-desc">Hospitality, retail and office environments designed to inspire, perform and communicate your brand's values with clarity and confidence.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Retail & Hospitality</span>
+          <span class="svc-tag">Brand Environments</span>
+          <span class="svc-tag">Wayfinding</span>
+          <span class="svc-tag">Renovation</span>
+        </div>
+      </div>
+      <div class="svc-image img-wipe" style="--wd:100ms"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Commercial Spaces"></div>
+      <span class="svc-arrow">→</span>
+    </div>
+    <div class="service-row fade-up fd2">
+      <div class="svc-meta">
+        <div class="svc-num">03 —</div>
+        <div class="svc-title">Work<br>Spaces</div>
+      </div>
+      <div class="svc-body">
+        <p class="svc-desc">Modern offices and studios built around how your team actually works — balancing focus, collaboration, and atmosphere that makes people want to stay.</p>
+        <div class="svc-tags">
+          <span class="svc-tag">Open Plan</span>
+          <span class="svc-tag">Acoustic Design</span>
+          <span class="svc-tag">Collaboration Zones</span>
+          <span class="svc-tag">Ergonomics</span>
+        </div>
+      </div>
+      <div class="svc-image img-wipe" style="--wd:100ms"><img src="https://images.unsplash.com/photo-1554995207-c18c203602cb?w=600&q=80" alt="Work Spaces"></div>
+      <span class="svc-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PORTFOLIO ══ -->
+<section class="portfolio-section" id="portfolio">
+
+  <!-- Intro bar -->
+  <div class="portfolio-intro fade-up">
+    <div class="portfolio-intro-left">
+      <p class="section-label">Design Portfolio</p>
+      <h2>Spaces We've<br><em>Shaped</em></h2>
+    </div>
+    <div class="portfolio-intro-right">
+      <p>A curated selection of rooms, details and atmospheres — each image a window into how we think about light, material and the feeling of a place.</p>
+      <div class="pf-tabs">
+        <button class="pf-tab active" onclick="switchPfTab('all',this)">All</button>
+        <button class="pf-tab" onclick="switchPfTab('living',this)">Living</button>
+        <button class="pf-tab" onclick="switchPfTab('kitchen',this)">Kitchen</button>
+        <button class="pf-tab" onclick="switchPfTab('bedroom',this)">Bedroom</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panels -->
+  <div class="pf-panels">
+
+    <!-- ALL panel -->
+    <div class="pf-panel active" id="pf-all" style="display:block;">
+      <div class="pf-bento pf-bento-all">
+        <div class="pi fade-up in">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1400&q=85" alt="The Ivory Residence">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">The Ivory Residence</div><div class="pi-sub">Mumbai · 4,200 sq ft</div></div>
+        </div>
+        <div class="pi fade-up fd1 in">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85" alt="Modern Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Brass & Slate Kitchen</div><div class="pi-sub">Mumbai</div></div>
+        </div>
+        <div class="pi fade-up fd2 in">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&q=85" alt="Serene Retreat Suite">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Serene Retreat Suite</div><div class="pi-sub">Bangalore</div></div>
+        </div>
+        <div class="pi fade-up fd1 in">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=85" alt="Curved Light House">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">Curved Light House</div><div class="pi-sub">Chennai</div></div>
+        </div>
+        <div class="pi fade-up fd2 in">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1100&q=85" alt="Warm Mineral Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Warm Mineral Kitchen</div><div class="pi-sub">Delhi</div></div>
+        </div>
+        <div class="pi fade-up fd3 in">
+          <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=900&q=85" alt="The Linen Room">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">The Linen Room</div><div class="pi-sub">Pune</div></div>
+        </div>
+        <div class="pi fade-up fd2 in">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=900&q=85" alt="The Taupe Apartment">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">The Taupe Apartment</div><div class="pi-sub">Bangalore</div></div>
+        </div>
+        <div class="pi fade-up fd3 in">
+          <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1100&q=85" alt="Arch & Stone Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Arch &amp; Stone Kitchen</div><div class="pi-sub">Hyderabad</div></div>
+        </div>
+        <div class="pi fade-up fd4 in">
+          <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=900&q=85" alt="Coastal Master Suite">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Coastal Master Suite</div><div class="pi-sub">Goa · Villa</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVING panel -->
+    <div class="pf-panel" id="pf-living">
+      <div class="pf-bento pf-bento-living">
+        <div class="pi fade-up">
+          <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1400&q=85" alt="The Ivory Residence">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">The Ivory Residence</div><div class="pi-sub">Mumbai · 4,200 sq ft</div></div>
+        </div>
+        <div class="pi fade-up fd1">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=85" alt="Curved Light House">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">Curved Light House</div><div class="pi-sub">Chennai</div></div>
+        </div>
+        <div class="pi fade-up fd2">
+          <img src="https://images.unsplash.com/photo-1600210491892-03d54730d73a?w=1200&q=85" alt="Amber Villa">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">Amber Villa</div><div class="pi-sub">Delhi · 3,800 sq ft</div></div>
+        </div>
+        <div class="pi fade-up fd3">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1100&q=85" alt="The Taupe Apartment">
+          <span class="pi-cat">Living</span>
+          <div class="pi-overlay"><div class="pi-label">The Taupe Apartment</div><div class="pi-sub">Bangalore</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KITCHEN panel -->
+    <div class="pf-panel" id="pf-kitchen">
+      <div class="pf-bento pf-bento-kitchen">
+        <div class="pi fade-up">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1400&q=85" alt="Warm Mineral Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Warm Mineral Kitchen</div><div class="pi-sub">Delhi</div></div>
+        </div>
+        <div class="pi fade-up fd1">
+          <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=900&q=85" alt="Arch & Stone Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Arch &amp; Stone Kitchen</div><div class="pi-sub">Hyderabad</div></div>
+        </div>
+        <div class="pi fade-up fd2">
+          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85" alt="Brass & Slate Kitchen">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Brass &amp; Slate Kitchen</div><div class="pi-sub">Mumbai</div></div>
+        </div>
+        <div class="pi fade-up fd1">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85" alt="The Open Galley">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">The Open Galley</div><div class="pi-sub">Bangalore</div></div>
+        </div>
+        <div class="pi fade-up fd3">
+          <img src="https://images.unsplash.com/photo-1616137422495-1e9e46e2aa77?w=900&q=85" alt="Terrazzo Hearth">
+          <span class="pi-cat">Kitchen</span>
+          <div class="pi-overlay"><div class="pi-label">Terrazzo Hearth</div><div class="pi-sub">Chennai</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BEDROOM panel -->
+    <div class="pf-panel" id="pf-bedroom">
+      <div class="pf-bento pf-bento-bedroom">
+        <div class="pi fade-up">
+          <img src="https://images.unsplash.com/photo-1618220179428-22790b461013?w=900&q=85" alt="The Linen Room">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">The Linen Room</div><div class="pi-sub">Pune</div></div>
+        </div>
+        <div class="pi fade-up fd1">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=85" alt="Serene Retreat Suite">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Serene Retreat Suite</div><div class="pi-sub">Bangalore · En-Suite</div></div>
+        </div>
+        <div class="pi fade-up fd2">
+          <img src="https://images.unsplash.com/photo-1567016432779-094069958ea5?w=900&q=85" alt="Coastal Master Suite">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Coastal Master Suite</div><div class="pi-sub">Goa</div></div>
+        </div>
+        <div class="pi fade-up fd2">
+          <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=900&q=85" alt="Arch Alcove Bedroom">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Arch Alcove Bedroom</div><div class="pi-sub">Delhi</div></div>
+        </div>
+        <div class="pi fade-up fd4">
+          <img src="https://images.unsplash.com/photo-1505409859467-3a796fd5798e?w=900&q=85" alt="Terrace Suite">
+          <span class="pi-cat">Bedroom</span>
+          <div class="pi-overlay"><div class="pi-label">Terrace Suite</div><div class="pi-sub">Mumbai · Penthouse</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pf-panels -->
+
+  <!-- Bottom strip -->
+  <div class="pf-strip fade-up">
+    <span class="pf-strip-count"><strong id="pfCount">9</strong> images shown from our portfolio</span>
+    <button class="pf-strip-cta" onclick="scrollToForm()">
+      Discuss Your Space
+      <svg width="12" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+</section>
+
+<!-- ══ FEATURE ══ -->
+<section class="feature-section">
+  <img class="feature-bg" id="featureBg" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&q=80" alt="Feature">
+  <div class="feature-overlay"></div>
+  <div class="feature-content fade-up">
+    <p class="section-label">Our Philosophy</p>
+    <h2>Good design is<br><em>never finished</em></h2>
+    <p>We believe every space is a living thing — it shifts with light, with seasons, with the people who inhabit it. Our work begins with listening.</p>
+    <a href="#" class="btn-light" onclick="scrollToForm();return false;">
+      Book a Consultation
+      <svg width="14" viewBox="0 0 14 14" fill="none"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="testimonial-section">
+  <div class="testi-image img-wipe dark">
+    <img id="testiImg" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80" alt="Project">
+  </div>
+  <div class="testi-content">
+    <div class="quote-mark">"</div>
+    <p class="testi-text" id="testiText">Working with Aurenza was unlike anything I expected. They didn't just design a room — they designed a way of living. Every detail felt considered, and every morning I wake up feeling grateful for the space around me.</p>
+    <div class="testi-profile">
+      <img class="testi-avatar" id="testiAvatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80" alt="Client">
+      <div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <div class="testi-author" id="testiAuthor">Priya Nair</div>
+        <div class="testi-project" id="testiProject">Mumbai Penthouse Residence</div>
+      </div>
+    </div>
+    <div class="testi-dots">
+      <div class="t-dot active" onclick="setT(0)"></div>
+      <div class="t-dot" onclick="setT(1)"></div>
+      <div class="t-dot" onclick="setT(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq-section">
+  <div class="faq-left fade-up">
+    <p class="section-label">Common Questions</p>
+    <h2>Things people<br>often <em>ask</em></h2>
+    <p>Every project starts with conversation. Here are the questions we hear most from new clients — answered honestly.</p>
+    <a href="#contact" class="faq-cta-inline" onclick="scrollToForm();return false;">
+      Ask Us Directly →
+    </a>
+    <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80" alt="Studio" class="faq-img img-wipe">
+  </div>
+  <ul class="faq-list fade-up fd2">
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How does your design process work?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">We start with a free 30-minute discovery call, then develop concept directions, present mood boards and material palettes, move through detailed design and procurement, and finish with on-site installation. You're involved at every key decision point.</div>
+    </li>
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What does it cost to work with you?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">Our design fees are structured on project scope. Residential projects typically start from ₹2,500/sq ft (design + execution). We provide a detailed, transparent quote after the discovery call — no surprises, ever.</div>
+    </li>
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How long does a full project take?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">A standard residential project takes 4–8 months from initial concept to final installation. We give you a clear timeline with milestones in our proposal, and we stick to it.</div>
+    </li>
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Do you work on projects outside Bangalore?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">Absolutely. We've completed projects in Mumbai, Delhi, Hyderabad, and Chennai. Travel and coordination costs are discussed upfront — nothing hidden.</div>
+    </li>
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Can I see the design before execution starts?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">Yes — always. We provide detailed 3D visualisations, material samples, and a full specification sheet before a single nail goes in. You approve, we execute.</div>
+    </li>
+    <li class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Do you offer just design, or full execution too?<span class="faq-icon">+</span></div>
+      <div class="faq-answer">Both. We offer design-only packages for clients who have their own contractors, or full design-and-build packages where we manage everything end-to-end. You choose the level of involvement you need.</div>
+    </li>
+  </ul>
+</section>
+
+<!-- ══ CONVERSION / CONTACT (NEW) ══ -->
+<section class="conversion-section" id="contact">
+  <div class="conv-left fade-up">
+    <p class="section-label">Start Your Project</p>
+    <h2>Let's create your <em>perfect space</em> together</h2>
+    <p>Whether you're redesigning a single room or transforming an entire home, we'd love to hear about your project. The first conversation is always free.</p>
+    <div class="conv-trust-list">
+      <div class="conv-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Free 30-minute discovery call — no obligation
+      </div>
+      <div class="conv-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Detailed proposal within 48 hours
+      </div>
+      <div class="conv-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Transparent pricing — no hidden fees
+      </div>
+      <div class="conv-trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        240+ completed projects across India
+      </div>
+    </div>
+    <div style="margin-top:8px;">
+      <div style="font-size:13px;color:var(--taupe);margin-bottom:6px;">Or reach us directly:</div>
+      <div style="font-size:14px;font-weight:500;color:var(--charcoal);">+91 98765 43210</div>
+      <div style="font-size:14px;color:var(--taupe);margin-top:2px;">hello@aurenza.studio</div>
+    </div>
+  </div>
+  <div class="conv-form fade-up fd2" id="convForm">
+    <div class="availability-badge">
+      <div class="avail-dot"></div>
+      Currently accepting 3 new projects
+    </div>
+    <h3>Book a Free Consultation</h3>
+    <p>Fill in your details and we'll be in touch within 24 hours.</p>
+    <div class="form-row">
+      <div class="form-field"><label class="form-label">Your Name *</label><input class="form-input" id="fName" placeholder="Priya Sharma" required></div>
+      <div class="form-field"><label class="form-label">Phone *</label><input class="form-input" id="fPhone" type="tel" placeholder="+91 98765 43210" required></div>
+    </div>
+    <div class="form-field"><label class="form-label">Email Address</label><input class="form-input" id="fEmail" type="email" placeholder="priya@example.com"></div>
+    <div class="form-field">
+      <label class="form-label">Project Type *</label>
+      <select class="form-select" id="fType">
+        <option value="">Select your project type</option>
+        <option>Full Home Interior</option>
+        <option>Living Room / Bedroom</option>
+        <option>Kitchen Design</option>
+        <option>Office / Workspace</option>
+        <option>Commercial Space</option>
+        <option>Renovation / Remodelling</option>
+      </select>
+    </div>
+    <div class="form-field">
+      <label class="form-label">Tell Us About Your Space</label>
+      <textarea class="form-textarea" id="fMsg" placeholder="Size of the space, location, timeline, any specific ideas..."></textarea>
+    </div>
+    <button class="form-submit" onclick="submitForm()">
+      Book Free Consultation
+      <svg viewBox="0 0 14 14" fill="none" width="14"><path d="M1 7H13M7 1L13 7L7 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="form-privacy">We respect your privacy. No spam, ever. Just a thoughtful response within 24 hours.</p>
+  </div>
+  <!-- Success state -->
+  <div id="formSuccess" style="display:none;" class="conv-form fd2 fade-up" style="text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:400px;">
+    <div style="font-size:56px;margin-bottom:20px;">✦</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;margin-bottom:14px;">Thank you, <span id="successName"></span>.</h3>
+    <p style="font-size:14px;color:var(--taupe);line-height:1.9;max-width:320px;">We've received your message and will be in touch within 24 hours to schedule your free discovery call.</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">Aurenza</span>
+      <p class="footer-tagline">We create thoughtful interiors for those who believe space is the most personal thing you own.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Your email for design insights">
+        <button>Subscribe →</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Our Process</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Press</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Work</h4>
+      <ul>
+        <li><a href="#" onclick="openProjectsPage();return false;">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#">Journal</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">hello@aurenza.studio</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Aurenza Studio. All rights reserved.</span>
+    <span>Bangalore · Mumbai · Delhi</span>
+  </div>
+</footer>
+
+<script>
+/* ── CURSOR ── */
+const cursor=document.getElementById('cursor');
+const ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function ct(){
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(ct);
+})();
+document.querySelectorAll('a,button,.project-card,.service-row,.portfolio-item,.news-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('big'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('big'));
+});
+
+/* ── NAV ── */
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>80);
+  // Float CTA
+  document.getElementById('floatCta').classList.toggle('show',window.scrollY>600);
+},{passive:true});
+
+/* ── HERO TITLE WORD FLOW ── */
+function initWordFlow(){
+  document.querySelectorAll('.word-flow').forEach(el=>{
+    if(el.dataset.split) return;
+    el.dataset.split='1';
+    // preserve HTML (em tags etc) by splitting text nodes only
+    const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+    const nodes=[];
+    let n;
+    while(n=walker.nextNode()) nodes.push(n);
+    nodes.forEach(node=>{
+      const words=node.textContent.split(/(\s+)/);
+      const frag=document.createDocumentFragment();
+      words.forEach(w=>{
+        if(/^\s+$/.test(w)){
+          frag.appendChild(document.createTextNode(w));
+        } else if(w){
+          const outer=document.createElement('span');
+          outer.className='wf-word';
+          const inner=document.createElement('span');
+          inner.textContent=w;
+          outer.appendChild(inner);
+          frag.appendChild(outer);
+        }
+      });
+      node.parentNode.replaceChild(frag,node);
+    });
+  });
+}
+initWordFlow();
+
+/* ── PARALLAX ── */
+const heroImg=document.getElementById('heroImg');
+const featureBg=document.getElementById('featureBg');
+window.addEventListener('scroll',()=>{
+  const sy=window.scrollY;
+  if(heroImg) heroImg.style.transform=`scale(1.08) translateY(${sy*.1}px)`;
+  if(featureBg){
+    const r=featureBg.closest('section').getBoundingClientRect();
+    featureBg.style.transform=`scale(1.1) translateY(${(r.top/window.innerHeight)*38}px)`;
+  }
+},{passive:true});
+
+/* ── INTERSECTION OBSERVER — all animations ── */
+const animObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target;
+    // fade-up, slide-left, slide-right, scale-up
+    if(el.classList.contains('fade-up')||el.classList.contains('slide-left')||el.classList.contains('slide-right')||el.classList.contains('scale-up')){
+      el.classList.add('in');
+      animObs.unobserve(el);
+    }
+    // image wipe curtain
+    if(el.classList.contains('img-wipe')){
+      el.classList.add('wipe-in');
+      animObs.unobserve(el);
+    }
+    // word flow
+    if(el.classList.contains('word-flow')){
+      el.classList.add('wf-in');
+      animObs.unobserve(el);
+    }
+    // number counter
+    el.querySelectorAll('[data-target]').forEach(num=>{
+      const target=parseInt(num.dataset.target);
+      let cur=0;
+      const inc=target/60;
+      const timer=setInterval(()=>{
+        cur=Math.min(cur+inc,target);
+        num.textContent=Math.floor(cur)+(num.dataset.target==='14'?'':'+');
+        if(cur>=target) clearInterval(timer);
+      },16);
+    });
+  });
+},{threshold:0.12,rootMargin:'0px 0px -36px 0px'});
+
+document.querySelectorAll('.fade-up,.slide-left,.slide-right,.scale-up,.img-wipe,.word-flow').forEach(el=>animObs.observe(el));
+
+/* ── TILT CARDS ── */
+document.querySelectorAll('.tilt-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(800px) rotateY(${x*6}deg) rotateX(${-y*6}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>card.style.transform='perspective(800px) rotateY(0) rotateX(0)');
+});
+
+/* ── FAQ ── */
+function toggleFaq(el){
+  const item=el.parentElement;
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!was) item.classList.add('open');
+}
+
+/* ── TESTIMONIALS ── */
+const TESTI=[
+  {
+    text:"Working with Aurenza was unlike anything I expected. They didn't just design a room — they designed a way of living. Every morning I wake up feeling grateful for the space around me.",
+    author:"Priya Nair",project:"Mumbai Penthouse Residence",
+    img:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80",
+    avatar:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"
+  },
+  {
+    text:"The team listened to everything I said — and everything I didn't. They understood the feeling I was looking for before I could articulate it myself. The result is completely, unmistakably mine.",
+    author:"Arjun Mehta",project:"Bangalore Villa — Full Home",
+    img:"https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=80",
+    avatar:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80"
+  },
+  {
+    text:"Our office was generic furniture and bad lighting. Aurenza transformed it into a space where people genuinely want to spend time. Productivity, morale, culture — everything improved.",
+    author:"Sunita Rao",project:"Hyderabad Tech Office — 6,000 sq ft",
+    img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80",
+    avatar:"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"
+  }
+];
+let curT=0;
+function setT(i){
+  curT=i;
+  const t=TESTI[i];
+  const txt=document.getElementById('testiText');
+  const auth=document.getElementById('testiAuthor');
+  const proj=document.getElementById('testiProject');
+  const img=document.getElementById('testiImg');
+  const av=document.getElementById('testiAvatar');
+  [txt,auth,proj,av].forEach(el=>el.style.opacity='0');
+  setTimeout(()=>{
+    txt.textContent=t.text;
+    auth.textContent=t.author;
+    proj.textContent=t.project;
+    img.src=t.img;
+    av.src=t.avatar;
+    [txt,auth,proj,av].forEach(el=>el.style.opacity='1');
+  },300);
+  document.querySelectorAll('.t-dot').forEach((d,idx)=>d.classList.toggle('active',idx===i));
+}
+[document.getElementById('testiText'),document.getElementById('testiAuthor'),document.getElementById('testiProject'),document.getElementById('testiAvatar')].forEach(el=>{
+  if(el) el.style.transition='opacity .4s';
+});
+setInterval(()=>setT((curT+1)%3),5500);
+
+/* ── PROJECTS PAGE ── */
+function openProjectsPage(){
+  document.getElementById('projectsPage').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeProjectsPage(){
+  document.getElementById('projectsPage').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeProjectsPage();});
+
+/* ── PROJECTS PAGE FILTER ── */
+function filterPP(cat, btn){
+  document.querySelectorAll('.pp-filter-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cards=document.querySelectorAll('#ppGrid .pp-card');
+  let visible=0;
+  cards.forEach(card=>{
+    const match=cat==='all'||card.dataset.cat===cat;
+    card.classList.toggle('hidden',!match);
+    if(match) visible++;
+  });
+  document.getElementById('ppCount').textContent=visible;
+}
+
+/* ── PORTFOLIO TAB SWITCH ── */
+function switchPfTab(cat, btn){
+  document.querySelectorAll('.pf-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const counts={all:9,living:4,kitchen:5,bedroom:5};
+  // Hide all panels first
+  document.querySelectorAll('.pf-panel').forEach(p=>{
+    p.classList.remove('active');
+    p.style.display='none';
+  });
+  const target=document.getElementById('pf-'+cat);
+  if(target){
+    target.style.display='block';
+    target.style.opacity='0';
+    target.style.transform='translateY(16px)';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      target.style.opacity='';
+      target.style.transform='';
+      target.classList.add('active');
+      // Re-trigger animations for items inside
+      target.querySelectorAll('.fade-up').forEach(el=>{
+        if(!el.classList.contains('in')){el.classList.add('in');}
+      });
+    }));
+  }
+  if(document.getElementById('pfCount')) document.getElementById('pfCount').textContent=counts[cat]||'--';
+}
+
+// Initialize: show 'all' panel on load
+(function initPortfolio(){
+  document.querySelectorAll('.pf-panel').forEach(p=>{
+    p.classList.remove('active');
+    p.style.display='none';
+  });
+  const allPanel=document.getElementById('pf-all');
+  if(allPanel){
+    allPanel.style.display='block';
+    allPanel.classList.add('active');
+  }
+  const allBtn=document.querySelector('.pf-tab');
+  if(allBtn) allBtn.classList.add('active');
+})();
+
+/* ── PORTFOLIO FILTER (legacy, kept for compatibility) ── */
+function filterPortfolio(cat,btn){}
+
+/* ── MOBILE MENU ── */
+function toggleMobileMenu(){
+  const menu=document.getElementById('mobileMenu');
+  const btn=document.getElementById('navHamburger');
+  const isOpen=menu.classList.contains('open');
+  if(isOpen){
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+    document.body.style.overflow='';
+  } else {
+    menu.classList.add('open');
+    btn.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+}
+function closeMobileMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('navHamburger').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+/* ── SCROLL TO FORM ── */
+function scrollToForm(){
+  document.getElementById('contact').scrollIntoView({behavior:'smooth',block:'start'});
+  setTimeout(()=>document.getElementById('fName')?.focus(),800);
+}
+
+/* ── FORM SUBMIT ── */
+function submitForm(){
+  const name=document.getElementById('fName').value.trim();
+  const phone=document.getElementById('fPhone').value.trim();
+  const type=document.getElementById('fType').value;
+  if(!name||!phone||!type){
+    alert('Please fill in your name, phone number, and project type.');
+    return;
+  }
+  document.getElementById('convForm').style.display='none';
+  const suc=document.getElementById('formSuccess');
+  suc.style.display='flex';
+  document.getElementById('successName').textContent=name.split(' ')[0];
+  // Animate success
+  setTimeout(()=>{suc.classList.add('in');},50);
+}
+/* ── 3D TILT CARDS ── */
+const PROJECTS=[
+  {
+    num:'01',cat:'Residential',year:'2024',
+    title:'The Ivory Residence',loc:'Mumbai · 4,200 sq ft',
+    img:'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1200&q=90',
+    desc:'A 4,200 sq ft penthouse transformed into a sanctuary of layered neutrals and warm stone — where every surface tells a quiet story of restraint and intention. We stripped the space back to its bones and rebuilt it with handcrafted details, custom millwork, and lighting that shifts from dawn to dusk.',
+    specs:[{l:'Location',v:'Mumbai'},{l:'Area',v:'4,200 sq ft'},{l:'Year',v:'2024'},{l:'Type',v:'Full Home'}],
+    gallery:['https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=700&q=80','https://images.unsplash.com/photo-1618220179428-22790b461013?w=700&q=80'],
+    tags:['Living Space','Penthouse','Custom Furniture','Full Home']
+  },
+  {
+    num:'02',cat:'Residential',year:'2023',
+    title:'Warm Mineral Kitchen',loc:'Delhi · Open Plan',
+    img:'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=90',
+    desc:'An open-plan kitchen recast in warm stone tones, aged brass fixtures, and seamlessly hidden appliances — functional poetry for daily rituals. Every material was selected to age beautifully, improving with time and use.',
+    specs:[{l:'Location',v:'Delhi'},{l:'Area',v:'1,800 sq ft'},{l:'Year',v:'2023'},{l:'Type',v:'Kitchen'}],
+    gallery:['https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=700&q=80','https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80'],
+    tags:['Kitchen','Open Plan','Brass Fixtures','Stone']
+  },
+  {
+    num:'03',cat:'Residential',year:'2023',
+    title:'Serene Retreat Suite',loc:'Bangalore · En-Suite',
+    img:'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1200&q=90',
+    desc:'A master bedroom and en-suite designed around the idea of deep rest — muted linen, handcrafted furniture, and a bathing space that borders on ritual. The lighting system shifts through 12 scenes, each calibrated to a moment in the day.',
+    specs:[{l:'Location',v:'Bangalore'},{l:'Area',v:'800 sq ft'},{l:'Year',v:'2023'},{l:'Type',v:'Bedroom'}],
+    gallery:['https://images.unsplash.com/photo-1567016432779-094069958ea5?w=700&q=80','https://images.unsplash.com/photo-1615529328331-f8917597711f?w=700&q=80'],
+    tags:['Bedroom','En-Suite','Lighting Design','Custom Bed']
+  },
+  {
+    num:'04',cat:'Workspace',year:'2024',
+    title:'Loft Studio Office',loc:'Hyderabad · 6,000 sq ft',
+    img:'https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=90',
+    desc:'A fintech startup\'s 6,000 sq ft workspace redesigned to feel like a creative studio — raw texture paired with precision craftsmanship. Flexible zones, acoustic-engineered meeting rooms, and a roof terrace that doubles as a thinking space.',
+    specs:[{l:'Location',v:'Hyderabad'},{l:'Area',v:'6,000 sq ft'},{l:'Year',v:'2024'},{l:'Type',v:'Office'}],
+    gallery:['https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80','https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=700&q=80'],
+    tags:['Commercial','Workspace','Acoustic Design','Flexible Zones']
+  },
+  {
+    num:'05',cat:'Residential',year:'2022',
+    title:'Curved Light House',loc:'Chennai · Arched Interiors',
+    img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&q=90',
+    desc:'An apartment redesigned around the flow of natural light — curved archways, soft plaster, and furniture that seems to grow from the floor. The palette was drawn from aged terracotta and chalk, materials that feel Mediterranean in heart but unmistakably Indian in soul.',
+    specs:[{l:'Location',v:'Chennai'},{l:'Area',v:'2,400 sq ft'},{l:'Year',v:'2022'},{l:'Type',v:'Apartment'}],
+    gallery:['https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=700&q=80','https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=700&q=80'],
+    tags:['Living Room','Arched Interiors','Plaster Walls','Natural Light']
+  },
+  {
+    num:'06',cat:'Commercial',year:'2023',
+    title:'The Prestige Lobby',loc:'Bangalore · 12,000 sq ft',
+    img:'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=90',
+    desc:'A corporate headquarters entrance hall transformed into a statement of quiet authority — grand proportions, curated art, and materials that speak of permanence. The chandelier was custom fabricated, suspended from a 9-metre ceiling like a constellation frozen in amber.',
+    specs:[{l:'Location',v:'Bangalore'},{l:'Area',v:'12,000 sq ft'},{l:'Year',v:'2023'},{l:'Type',v:'Commercial'}],
+    gallery:['https://images.unsplash.com/photo-1554995207-c18c203602cb?w=700&q=80','https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=700&q=80'],
+    tags:['Corporate','Lobby','Chandelier','12,000 sq ft']
+  }
+];
+
+function openProjectModal(idx){
+  const p=PROJECTS[idx];
+  document.getElementById('pmImg').src=p.img;
+  document.getElementById('pmCat').textContent=p.cat;
+  document.getElementById('pmTitle').textContent=p.title;
+  document.getElementById('pmLoc').textContent=p.loc;
+  document.getElementById('pmDesc').textContent=p.desc;
+  document.getElementById('pmSpecs').innerHTML=p.specs.map(s=>`<div class="pm-spec"><div class="pm-spec-label">${s.l}</div><div class="pm-spec-val">${s.v}</div></div>`).join('');
+  document.getElementById('pmGallery').innerHTML=p.gallery.map(u=>`<img src="${u}" alt="">`).join('');
+  document.getElementById('pmTags').innerHTML=p.tags.map(t=>`<span class="pm-tag">${t}</span>`).join('');
+  const modal=document.getElementById('projectModal');
+  modal.classList.add('open');
+  document.getElementById('pmPanel').scrollTop=0;
+  document.body.style.overflow='hidden';
+}
+function closeProjectModal(){
+  document.getElementById('projectModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProjectModal();closeProjectsPage();}});
+
+/* 3D tilt */
+document.querySelectorAll('.proj3d-card').forEach(card=>{
+  const inner=card.querySelector('.proj3d-inner');
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    inner.style.transform=`perspective(900px) rotateY(${x*16}deg) rotateX(${-y*12}deg) scale(1.03)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    inner.style.transform='perspective(900px) rotateY(0deg) rotateX(0deg) scale(1)';
+  });
+});
+</script>
+</body>
+</html>
