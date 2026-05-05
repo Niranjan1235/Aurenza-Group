@@ -123,7 +123,7 @@ body.hov #cur-ring{width:50px;height:50px;border-color:var(--gold);}
 #nav{position:fixed;top:0;left:0;right:0;z-index:800;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 68px;transition:background .45s,box-shadow .45s;}
 #nav.on{background:rgba(11, 11, 11, 0.97);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 var(--border);}
 .nav-logo{display:flex;align-items:center;}
-.nav-logo-img{height: 120px;width:auto;filter:brightness(1.1);transition:filter .35s;}
+.nav-logo-img{height:110px;width:auto;filter:brightness(1.1);transition:filter .35s;}
 #nav.on .nav-logo-img{filter:brightness(1.15) contrast(1.1);}
 .nav-links{display:flex;gap:36px;list-style:none;}
 .nav-links a{font-family:var(--sans);font-size:.63rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .35s,letter-spacing .35s,text-shadow .35s;position:relative;}
@@ -343,207 +343,272 @@ body.hov #cur-ring{width:50px;height:50px;border-color:var(--gold);}
 .scale-label p{font-family:var(--sans);font-size:.78rem;color:rgba(255,255,255,.3);margin-top:.5rem;}
 
 /* ════════════════════════════════════════
-   ROADMAP PROCESS SECTION
+   PROCESS TIMELINE — FULLY RESPONSIVE
 ════════════════════════════════════════ */
-.process-header{text-align:center;max-width:640px;margin:0 auto 100px;}
-.process-header .eyebrow{justify-content:center;}
-.process-header .sec-h{text-align:center;}
-.process-header .sec-p{text-align:center;margin:14px auto 0;}
+#process{
+  background:#1a1814;
+  padding:120px 68px;
+  overflow:hidden;
+}
 
-/* ════════════════════════════════════════
-   ROADMAP — PREMIUM EDITORIAL
-════════════════════════════════════════ */
-#process{background:#221f1c;padding:140px 68px;}
-.process-header{text-align:center;max-width:640px;margin:0 auto 100px;}
-.process-header .eyebrow{justify-content:center;color:var(--gold-l);}
+.process-header{
+  text-align:center;
+  max-width:600px;
+  margin:0 auto 80px;
+}
+.process-header .eyebrow{
+  justify-content:center;
+  color:var(--gold-l);
+}
 .process-header .eyebrow::before{background:var(--gold-l);}
 .process-header .sec-h{color:#fff;text-align:center;}
-.process-header .sec-p{color:rgba(255,255,255,.38);text-align:center;margin:14px auto 0;}
-
-.roadmap{position:relative;max-width:1000px;margin:0 auto;}
-
-/* vertical spine */
-.roadmap::before{
-  content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;
-  background:linear-gradient(to bottom,transparent 0%,rgba(184,147,90,.2) 6%,rgba(184,147,90,.2) 94%,transparent 100%);
-  transform:translateX(-50%);z-index:0;
+.process-header .sec-p{
+  color:rgba(255,255,255,.38);
+  text-align:center;
+  margin:14px auto 0;
+  max-width:480px;
 }
 
-/* each row */
+/* ── Timeline wrapper ── */
+.roadmap{
+  position:relative;
+  max-width:860px;
+  margin:0 auto;
+}
+
+/* central spine */
+.roadmap::before{
+  content:'';
+  position:absolute;
+  left:36px;
+  top:0;bottom:0;
+  width:1px;
+  background:linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(184,147,90,.25) 5%,
+    rgba(184,147,90,.25) 95%,
+    transparent 100%
+  );
+  z-index:0;
+}
+
+/* ── Each step row ── */
 .rm-row{
   display:grid;
-  grid-template-columns:1fr 120px 1fr;
+  grid-template-columns:72px 1fr;
+  gap:0 28px;
+  margin-bottom:0;
+  position:relative;
+  align-items:flex-start;
+}
+
+/* connector line between steps */
+.rm-row:not(:last-child)::after{
+  content:'';
+  position:absolute;
+  left:36px;
+  top:72px;
+  bottom:-1px;
+  width:1px;
+  background:rgba(184,147,90,.14);
+  z-index:0;
+  transform:none;
+}
+.rm-row.flip::after{display:none;}
+
+/* ── Node column ── */
+.rm-center{
+  display:flex;
+  flex-direction:column;
   align-items:center;
   gap:0;
-  margin-bottom:64px;
   position:relative;
-}
-.rm-row:last-child{margin-bottom:0;}
-
-/* horizontal connector line from card to node */
-.rm-row::after{
-  content:'';position:absolute;top:50%;
-  height:1px;background:rgba(184,147,90,.18);
-  z-index:1;
-  left:calc(50% - 60px);width:60px;
-  transform:translateY(-50%);
-}
-.rm-row.flip::after{
-  left:50%;width:60px;
+  z-index:2;
+  padding-top:4px;
 }
 
-.rm-left{padding-right:48px;text-align:right;}
-.rm-right{padding-left:48px;text-align:left;}
-.rm-center{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  position:relative;z-index:2;gap:10px;
+/* step number badge above node */
+.rm-step-num{
+  font-family:var(--sans);
+  font-size:.52rem;
+  font-weight:700;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(184,147,90,.45);
+  margin-bottom:8px;
+  text-align:center;
 }
-
-/* flip order */
-.rm-row.flip .rm-left{order:3;text-align:left;padding-right:0;padding-left:48px;}
-.rm-row.flip .rm-center{order:2;}
-.rm-row.flip .rm-right{order:1;text-align:right;padding-left:0;padding-right:48px;}
 
 /* node circle */
-.rm-node svg{
-  width:20px;height:20px;stroke:rgba(184,147,90,.7);stroke-width:1.8;
-  fill:none;stroke-linecap:round;stroke-linejoin:round;
-  transition:stroke .35s;
-}
-.rm-row:hover .rm-node svg{ stroke:var(--gold); }
-.rm-node.rm-done svg{ stroke:var(--gold); }
 .rm-node{
-  width:52px;height:52px;border-radius:50%;
-  background:var(--dark);
-  border:1px solid rgba(184,147,90,.4);
+  width:54px;height:54px;
+  border-radius:50%;
+  background:#221f1a;
+  border:1.5px solid rgba(184,147,90,.35);
   display:flex;align-items:center;justify-content:center;
-  font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;
-  color:rgba(184,147,90,.7);
-  letter-spacing:.06em;
-  box-shadow:0 0 0 6px rgba(184,147,90,.06);
-  transition:border-color .35s,box-shadow .35s,background .35s,color .35s;
   position:relative;z-index:2;
+  box-shadow:0 0 0 6px rgba(184,147,90,.05);
+  transition:border-color .4s,box-shadow .4s,background .4s;
+  flex-shrink:0;
 }
 .rm-node svg{
-  width:20px;height:20px;stroke:var(--gold);stroke-width:1.8;
+  width:20px;height:20px;
+  stroke:rgba(184,147,90,.65);stroke-width:1.7;
   fill:none;stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .4s;
 }
 .rm-row:hover .rm-node{
   border-color:var(--gold);
   background:rgba(184,147,90,.1);
-  color:var(--gold);
-  box-shadow:0 0 0 8px rgba(184,147,90,.08),0 0 24px rgba(184,147,90,.2);
+  box-shadow:0 0 0 8px rgba(184,147,90,.08),0 0 28px rgba(184,147,90,.22);
 }
+.rm-row:hover .rm-node svg{stroke:var(--gold);}
 
-.rm-step-label{
-  font-family:var(--sans);font-size:.52rem;font-weight:600;
-  letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(184,147,90,.4);
-  text-align:center;
-}
-
-/* card */
-.rm-card{
-  background:rgba(255,255,255,.032);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:16px;
-  padding:30px 28px;
-  position:relative;
-  transition:border-color .35s,background .35s,transform .35s;
-  overflow:hidden;
-}
-/* subtle top gradient line */
-.rm-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(184,147,90,.0),transparent);
-  transition:background .35s;
-}
-.rm-row:hover .rm-card{
-  background:rgba(184,147,90,.05);
-  border-color:rgba(184,147,90,.22);
-  transform:translateY(-3px);
-}
-.rm-row:hover .rm-card::before{
-  background:linear-gradient(90deg,transparent,rgba(184,147,90,.5),transparent);
-}
-
-/* phase badge */
-.rm-phase{
-  display:inline-flex;align-items:center;gap:6px;
-  background:rgba(184,147,90,.1);border:1px solid rgba(184,147,90,.2);
-  color:var(--gold-l);padding:3px 11px;border-radius:20px;
-  font-family:var(--sans);font-size:.6rem;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;
-}
-
-/* title — larger, serif */
-.rm-title{
-  font-family:var(--serif);font-size:1.22rem;font-weight:400;
-  color:#fff;line-height:1.25;margin-bottom:12px;
-}
-.rm-title em{font-style:italic;color:var(--gold-l);}
-
-/* body text */
-.rm-desc{
-  font-family:var(--sans);font-size:.82rem;
-  color:rgba(255,255,255,.42);line-height:1.82;font-weight:300;
-  margin-bottom:16px;
-}
-
-/* key detail row */
-.rm-details{
-  display:flex;flex-direction:column;gap:7px;
-  border-top:1px solid rgba(255,255,255,.06);
-  padding-top:14px;
-}
-.rm-detail{
-  display:flex;align-items:center;gap:9px;
-  font-family:var(--sans);font-size:.75rem;
-  color:rgba(255,255,255,.35);font-weight:300;
-}
-.rm-detail svg{
-  width:13px;height:13px;flex-shrink:0;
-  stroke:var(--gold);stroke-width:2;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;
-  opacity:.7;
-}
-/* right-align details on right-side cards */
-.rm-right .rm-details{align-items:flex-start;}
-.rm-left .rm-details{align-items:flex-end;}
-.rm-row.flip .rm-right .rm-details{align-items:flex-start;}
-.rm-row.flip .rm-left .rm-details{align-items:flex-end;}
-
-/* empty placeholder */
-.rm-empty{visibility:hidden;}
-
-/* completion node special */
+/* done/final node */
 .rm-node.rm-done{
-  background:rgba(184,147,90,.15);
+  background:rgba(184,147,90,.14);
   border-color:var(--gold);
   box-shadow:0 0 0 8px rgba(184,147,90,.08),0 0 32px rgba(184,147,90,.3);
 }
+.rm-node.rm-done svg{stroke:var(--gold);}
+
+/* step label below node */
+.rm-step-label{
+  font-family:var(--sans);
+  font-size:.5rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(184,147,90,.35);
+  text-align:center;
+  margin-top:8px;
+}
+
+/* ── Card column ── */
+.rm-left,.rm-right{
+  padding:0;
+  text-align:left;
+}
+
+/* card itself */
+.rm-card{
+  background:rgba(255,255,255,.028);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;
+  padding:28px 28px 24px;
+  margin-bottom:32px;
+  position:relative;
+  overflow:hidden;
+  transition:border-color .38s,background .38s,transform .38s,box-shadow .38s;
+}
+.rm-card::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(184,147,90,.0),transparent);
+  transition:background .38s;
+}
+.rm-row:hover .rm-card{
+  background:rgba(184,147,90,.045);
+  border-color:rgba(184,147,90,.2);
+  transform:translateX(4px);
+  box-shadow:0 12px 48px rgba(0,0,0,.28);
+}
+.rm-row:hover .rm-card::before{
+  background:linear-gradient(90deg,transparent,rgba(184,147,90,.55),transparent);
+}
+
+/* done card */
 .rm-card.rm-done-card{
-  border-color:rgba(184,147,90,.3);
-  background:rgba(184,147,90,.06);
+  border-color:rgba(184,147,90,.28);
+  background:rgba(184,147,90,.055);
 }
 .rm-card.rm-done-card::before{
   background:linear-gradient(90deg,transparent,rgba(184,147,90,.6),transparent);
 }
 
-/* Mobile */
-@media(max-width:800px){
-  #process{padding:80px 20px;}
+/* phase badge */
+.rm-phase{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(184,147,90,.1);
+  border:1px solid rgba(184,147,90,.22);
+  color:var(--gold-l);
+  padding:3px 12px;
+  border-radius:20px;
+  font-family:var(--sans);font-size:.58rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+/* title */
+.rm-title{
+  font-family:var(--serif);
+  font-size:1.25rem;font-weight:400;
+  color:#fff;line-height:1.25;
+  margin-bottom:10px;
+}
+.rm-title em{font-style:italic;color:var(--gold-l);}
+
+/* description */
+.rm-desc{
+  font-family:var(--sans);font-size:.82rem;
+  color:rgba(255,255,255,.4);
+  line-height:1.85;font-weight:300;
+  margin-bottom:16px;
+}
+
+/* details list */
+.rm-details{
+  display:flex;flex-direction:column;gap:7px;
+  border-top:1px solid rgba(255,255,255,.055);
+  padding-top:14px;
+}
+.rm-detail{
+  display:flex;align-items:center;gap:9px;
+  font-family:var(--sans);font-size:.76rem;
+  color:rgba(255,255,255,.32);font-weight:300;
+}
+.rm-detail svg{
+  width:12px;height:12px;flex-shrink:0;
+  stroke:var(--gold);stroke-width:2.2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  opacity:.75;
+}
+
+/* hide alternating-layout placeholders — not needed in new design */
+.rm-empty{display:none;}
+.rm-row.flip .rm-left{display:none;}
+
+/* ── Tablet ── */
+@media(max-width:900px){
+  #process{padding:100px 40px;}
+  .rm-card{padding:24px 22px 20px;}
+}
+
+/* ── Mobile ── */
+@media(max-width:700px){
+  #process{padding:80px 18px;}
   .process-header{margin-bottom:60px;}
-  .roadmap::before{left:20px;}
-  .rm-row{grid-template-columns:40px 1fr;gap:0;margin-bottom:40px;}
-  .rm-row::after,.rm-row.flip::after{display:none;}
-  .rm-row .rm-left,.rm-row.flip .rm-left,.rm-empty{display:none;}
-  .rm-row .rm-center,.rm-row.flip .rm-center{order:1;align-items:flex-start;padding:0;}
-  .rm-row .rm-right,.rm-row.flip .rm-right{order:2;text-align:left;padding-left:18px;padding-right:0;}
-  .rm-left .rm-details{align-items:flex-start;}
-  .rm-node{width:40px;height:40px;font-size:.65rem;}
-  .rm-step-label{display:none;}
+  .roadmap::before{left:26px;}
+  .rm-row{
+    grid-template-columns:52px 1fr;
+    gap:0 18px;
+  }
+  .rm-row:not(:last-child)::after{left:26px;top:52px;}
+  .rm-node{width:52px;height:52px;}
+  .rm-card{padding:20px 18px 18px;margin-bottom:24px;transform:none!important;}
+  .rm-title{font-size:1.1rem;}
+  .rm-desc{font-size:.79rem;}
+  .rm-detail{font-size:.73rem;}
+}
+
+/* ── Very small ── */
+@media(max-width:380px){
+  .roadmap::before{left:22px;}
+  .rm-row{grid-template-columns:44px 1fr;gap:0 14px;}
+  .rm-row:not(:last-child)::after{left:22px;}
+  .rm-node{width:44px;height:44px;}
+  .rm-node svg{width:17px;height:17px;}
 }
 
 /* ════════════════════════════════════════
@@ -971,7 +1036,7 @@ footer{background:#070604;padding:0;}
 <!-- MOBILE NAV -->
 <div id="mobile-nav">
   <ul class="mob-links">
-    <li><a href="aurenza-final.html" onclick="closeMobileNav()">Interiors</a></li>
+    <li><a href="aurenza_final (3).html" onclick="closeMobileNav()">Interiors</a></li>
     <li><a href="#services" onclick="closeMobileNav()">Services</a></li>
     <li><a href="projects.html" onclick="closeMobileNav()">Projects</a></li>
     <li><a href="#process" onclick="closeMobileNav()">How We Work</a></li>
@@ -982,13 +1047,12 @@ footer{background:#070604;padding:0;}
   <button class="mob-nav-cta" onclick="closeMobileNav(); openDiscount();">Claim 15% Off →</button>
   <span class="mob-nav-footer">+91 96066 34536 &nbsp;·&nbsp; Koramangala, Bengaluru</span>
 </div>
-
 <!-- HERO -->
 <section id="hero">
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
-   
+    <div class="hero-eyebrow"><i></i>Bengaluru's #1 Architecture &amp; Construction Company Since 2004</div>
     <h1 class="hero-h1">
       <span class="hl">Spaces That</span>
       <span class="hl">Feel Like</span>
@@ -1171,7 +1235,7 @@ footer{background:#070604;padding:0;}
   </div>
 </section>
 
-<!-- ═══ HOW WE WORK — ROADMAP ═══ -->
+<!-- ═══ HOW WE WORK — TIMELINE ═══ -->
 <section id="process">
   <div class="process-header">
     <span class="eyebrow rv" style="justify-content:center;">How We Work</span>
@@ -1180,8 +1244,16 @@ footer{background:#070604;padding:0;}
   </div>
   <div class="roadmap">
 
-    <div class="rm-row">
-      <div class="rm-left">
+    <!-- Step 1 -->
+    <div class="rm-row rv">
+      <div class="rm-center">
+        <div class="rm-step-num">01</div>
+        <div class="rm-node">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="rm-step-label">Discovery</div>
+      </div>
+      <div class="rm-right">
         <div class="rm-card">
           <span class="rm-phase">Day 1</span>
           <div class="rm-title">Free <em>Discovery</em> Call</div>
@@ -1193,17 +1265,15 @@ footer{background:#070604;padding:0;}
           </div>
         </div>
       </div>
-      <div class="rm-center">
-        <div class="rm-node"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-        <div class="rm-step-label">Discovery</div>
-      </div>
-      <div class="rm-right rm-empty"></div>
     </div>
 
-    <div class="rm-row flip">
-      <div class="rm-left rm-empty"></div>
+    <!-- Step 2 -->
+    <div class="rm-row rv d1">
       <div class="rm-center">
-        <div class="rm-node"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div class="rm-step-num">02</div>
+        <div class="rm-node">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
         <div class="rm-step-label">Design</div>
       </div>
       <div class="rm-right">
@@ -1220,8 +1290,16 @@ footer{background:#070604;padding:0;}
       </div>
     </div>
 
-    <div class="rm-row">
-      <div class="rm-left">
+    <!-- Step 3 -->
+    <div class="rm-row rv d2">
+      <div class="rm-center">
+        <div class="rm-step-num">03</div>
+        <div class="rm-node">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div class="rm-step-label">Contract</div>
+      </div>
+      <div class="rm-right">
         <div class="rm-card">
           <span class="rm-phase">Week 3–5</span>
           <div class="rm-title">Fixed Quote &amp; <em>Legal Filing</em></div>
@@ -1233,17 +1311,15 @@ footer{background:#070604;padding:0;}
           </div>
         </div>
       </div>
-      <div class="rm-center">
-        <div class="rm-node"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-        <div class="rm-step-label">Contract</div>
-      </div>
-      <div class="rm-right rm-empty"></div>
     </div>
 
-    <div class="rm-row flip">
-      <div class="rm-left rm-empty"></div>
+    <!-- Step 4 -->
+    <div class="rm-row rv d3">
       <div class="rm-center">
-        <div class="rm-node"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="rm-step-num">04</div>
+        <div class="rm-node">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
         <div class="rm-step-label">Build</div>
       </div>
       <div class="rm-right">
@@ -1260,8 +1336,16 @@ footer{background:#070604;padding:0;}
       </div>
     </div>
 
-    <div class="rm-row">
-      <div class="rm-left">
+    <!-- Step 5 -->
+    <div class="rm-row rv d4">
+      <div class="rm-center">
+        <div class="rm-step-num">05</div>
+        <div class="rm-node">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="rm-step-label">QC</div>
+      </div>
+      <div class="rm-right">
         <div class="rm-card">
           <span class="rm-phase">Final Month</span>
           <div class="rm-title">Quality Check &amp; <em>Finishing</em></div>
@@ -1273,17 +1357,15 @@ footer{background:#070604;padding:0;}
           </div>
         </div>
       </div>
-      <div class="rm-center">
-        <div class="rm-node"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-        <div class="rm-step-label">QC</div>
-      </div>
-      <div class="rm-right rm-empty"></div>
     </div>
 
-    <div class="rm-row flip">
-      <div class="rm-left rm-empty"></div>
+    <!-- Step 6 — Final -->
+    <div class="rm-row rv d5">
       <div class="rm-center">
-        <div class="rm-node rm-done"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="rm-step-num" style="color:rgba(184,147,90,.7);">06</div>
+        <div class="rm-node rm-done">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
         <div class="rm-step-label" style="color:var(--gold);">Handover</div>
       </div>
       <div class="rm-right">
@@ -1356,14 +1438,6 @@ footer{background:#070604;padding:0;}
       </div>
 
       <div class="calc-field">
-        <label>BBMP Approvals &amp; Legal</label>
-        <select id="c-legal" onchange="calcUpdate()">
-          <option value="yes" selected>Yes — Include all approvals</option>
-          <option value="no">No — I'll manage separately</option>
-        </select>
-      </div>
-
-      <div class="calc-field">
         <label>Location in Bengaluru</label>
         <select id="c-loc" onchange="calcUpdate()">
           <option value="1.0">Outer Ring Road / Suburbs</option>
@@ -1384,7 +1458,6 @@ footer{background:#070604;padding:0;}
       <div class="cr-rows">
         <div class="cr-row"><span class="cr-row-label">Construction</span><span class="cr-row-val" id="cr-const">—</span></div>
         <div class="cr-row"><span class="cr-row-label">Interior Fit-out</span><span class="cr-row-val" id="cr-int">—</span></div>
-        <div class="cr-row"><span class="cr-row-label">Approvals &amp; Legal</span><span class="cr-row-val" id="cr-legal">—</span></div>
         <div class="cr-row"><span class="cr-row-label">Architecture &amp; Design (4–5%)</span><span class="cr-row-val" id="cr-arch">—</span></div>
       </div>
       <div class="cr-note">This is an indicative estimate only. Actual costs vary based on soil conditions, structural requirements, and material choices. Book a free site visit for an accurate quote.</div>
@@ -1457,8 +1530,8 @@ footer{background:#070604;padding:0;}
     <a href="https://wa.me/919606634536" class="btn-ghost">WhatsApp Us</a>
   </div>
   <div class="cta-info rv">
-    <div class="ci"><div class="ci-l">Email</div><div class="ci-v"><a href="mailto:hello@aurenza.in" style="color:#fff;">hello@aurenza.in</a></div><div class="ci-s">Response within 24 hrs</div></div>
-    <div class="ci"><div class="ci-l">WhatsApp</div><div class="ci-v">+91 96066 34536</div><div class="ci-s">Mon–Sat · 9:30am–7pm IST</div></div>
+    <div class="ci"><div class="ci-l">Email</div><div class="ci-v"><a href="mailto:info@aurenzagroup.com" style="color:#fff;">hello@aurenza.in</a></div><div class="ci-s">Response within 24 hrs</div></div>
+    <div class="ci"><div class="ci-l">WhatsApp</div><div class="ci-v">+91 9606634536</div><div class="ci-s">Mon–Sat · 9:30am–7pm IST</div></div>
     <div class="ci"><div class="ci-l">Video Call</div><div class="ci-v">Schedule a Call</div><div class="ci-s">All time zones welcome</div></div>
   </div>
 </section>
@@ -1470,14 +1543,10 @@ footer{background:#070604;padding:0;}
       <span class="eyebrow rv">Find Us</span>
       <h2 class="sec-h rv d1" style="margin-bottom:0;">Our <em>Office</em> in Bengaluru</h2>
     </div>
-    <a href="https://maps.google.com/?q=Koramangala,+Bengaluru,+Karnataka" target="_blank" class="btn-warm rv" style="font-size:.65rem;padding:10px 22px;">Get Directions →</a>
+    <a href="https://maps.app.goo.gl/T3jWYxCRvH4tXTDg6" target="_blank" class="btn-warm rv" style="font-size:.65rem;padding:10px 22px;">Get Directions →</a>
   </div>
   <div class="map-frame rv">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15553.240126386167!2d77.61670!3d12.93520!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1440b7e1e0d5%3A0x9bb74c9fb1fb35bd!2sKoramangala%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-      allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-      title="Aurenza Group Office — Koramangala, Bengaluru">
-    </iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1189.686582382008!2d77.57766826621439!3d12.864572575428255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1540bd035dcb%3A0xa1c0685494899f72!2sSri%20Chaitanya%20Techno%20School!5e0!3m2!1sen!2sin!4v1777956422780!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
   <div class="map-info-row">
     <div class="map-box rv">
@@ -1759,7 +1828,6 @@ function calcUpdate(){
   const floors=parseInt(document.getElementById('c-floors').value);
   const grade=document.getElementById('c-grade').value;
   const interior=document.getElementById('c-interior').value;
-  const legal=document.getElementById('c-legal').value;
   const loc=parseFloat(document.getElementById('c-loc').value);
   document.getElementById('c-area-val').textContent=area.toLocaleString('en-IN')+' sq.ft';
   const built=area*floors;
@@ -1767,13 +1835,11 @@ function calcUpdate(){
   const cMin=built*g.min*loc, cMax=built*g.max*loc;
   const iMin=area*i.min,     iMax=area*i.max;
   const aMin=cMin*.04,       aMax=cMax*.05;
-  const lAmt=legal==='yes'?Math.round(built*85*loc):0;
-  const tMin=cMin+iMin+aMin+lAmt, tMax=cMax+iMax+aMax+lAmt;
+  const tMin=cMin+iMin+aMin, tMax=cMax+iMax+aMax;
   document.getElementById('cr-total').textContent=fmtINR(Math.round(tMin))+' – '+fmtINR(Math.round(tMax));
   document.getElementById('cr-sub').textContent='Built-up: '+built.toLocaleString('en-IN')+' sq.ft';
   document.getElementById('cr-const').textContent=fmtINR(Math.round(cMin))+' – '+fmtINR(Math.round(cMax));
   document.getElementById('cr-int').textContent=iMin===0?'Not included':fmtINR(Math.round(iMin))+' – '+fmtINR(Math.round(iMax));
-  document.getElementById('cr-legal').textContent=lAmt===0?'Not included':fmtINR(lAmt);
   document.getElementById('cr-arch').textContent=fmtINR(Math.round(aMin))+' – '+fmtINR(Math.round(aMax));
 }
 calcUpdate();
